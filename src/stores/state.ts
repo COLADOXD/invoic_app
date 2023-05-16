@@ -3,7 +3,8 @@ import { defineStore } from "pinia";
 export const useStore = defineStore({
     id:"store",
     state: () => ({
-        nameProyect:"invoic_app"
+        nameProyect:"invoic_app",
+        isDark: false,
     }),
     persist: true,
 })
