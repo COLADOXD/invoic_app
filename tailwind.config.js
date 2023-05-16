@@ -7,11 +7,11 @@ module.exports = {
       fontFamily: {},
       textColor: (theme) => ({
         ...theme("colors"),
-        primary: "hsl(209, 23%, 22%)",
+        primary: "#141624",
 
-        secondary: "hsl(207, 26%, 17%)",
+        secondary: "#1f2138",
 
-        terceary: "hsl(200, 15%, 8%)",
+        terceary: "#373b54",
 
         cuarto: "hsl(0, 0%, 52%)",
 
@@ -21,11 +21,11 @@ module.exports = {
       }),
       backgroundColor: (theme) => ({
         ...theme("colors"),
-        primary: "hsl(209, 23%, 22%)",
+        primary: "#141624",
 
-        secondary: "hsl(207, 26%, 17%)",
+        secondary: "#1f2138",
 
-        terceary: "hsl(200, 15%, 8%)",
+        terceary: "#373b54",
 
         cuarto: "hsl(0, 0%, 52%)",
 
