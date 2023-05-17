@@ -1,19 +1,23 @@
 <script setup lang="ts">
-import FilterComponent from "../components/FilterComponent.vue"
-import NewComponent from "../components/NewComponent.vue"
-import Invoices from "../components/InvoicesComponent.vue"
+import HeaderComponent from "@/components/HeaderComponent.vue";
+import FilterComponent from "@/components/FilterComponent.vue"
+import NewComponent from "@/components/NewComponent.vue"
+import Invoices from "@/components/InvoicesComponent.vue"
 </script>
 
 <template>
-  <div class="flex justify-between mb-5 dark:text-white">
-    <div>
-      <p class="text-2xl font-bold">Invoices</p>
-      <p class="text-slate-400">0 voices</p>
+  <HeaderComponent />
+  <div class="px-5 pt-5">
+    <div class="flex justify-between mb-5 dark:text-white mt-16">
+      <div>
+        <p class="text-2xl font-bold">Invoices</p>
+        <p class="text-slate-400">0 voices</p>
+      </div>
+      <div class="flex flex-row">
+        <FilterComponent />
+        <NewComponent />
+      </div>
     </div>
-    <div class="flex flex-row">
-      <FilterComponent />
-      <NewComponent />
-    </div>
+    <Invoices />
   </div>
-  <Invoices />
 </template>
