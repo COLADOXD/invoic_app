@@ -13,9 +13,9 @@ module.exports = {
 
         terceary: "#373b54",
 
-        cuarto: "hsl(0, 0%, 52%)",
+        cuarto: "#262943",
 
-        quinto: "hsl(0, 0%, 98%)",
+        quinto: "#f8f8fb",
 
         sexto: "hsl(0, 0%, 100%)",
       }),
@@ -27,9 +27,9 @@ module.exports = {
 
         terceary: "#373b54",
 
-        cuarto: "hsl(0, 0%, 52%)",
+        cuarto: "#262943",
 
-        quinto: "hsl(0, 0%, 98%)",
+        quinto: "#f8f8fb",
 
         sexto: "hsl(0, 0%, 100%)",
         septimo: "#f3f4f6",
