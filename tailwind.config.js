@@ -32,6 +32,7 @@ module.exports = {
         quinto: "#f8f8fb",
 
         sexto: "hsl(0, 0%, 100%)",
+
         septimo: "#f3f4f6",
       }),
     },

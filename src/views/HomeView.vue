@@ -15,9 +15,13 @@ import Invoices from "@/components/InvoicesComponent.vue"
       </div>
       <div class="flex flex-row">
         <FilterComponent />
-        <NewComponent />
+        <router-link to="/invoic">
+          <NewComponent />
+        </router-link>
       </div>
     </div>
-    <Invoices />
+    <router-link to="/about">
+      <Invoices />
+    </router-link>
   </div>
 </template>

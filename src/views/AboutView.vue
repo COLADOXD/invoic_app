@@ -8,7 +8,9 @@ import GoBackComponent from "@/components/GoBackComponent.vue";
   <HeaderComponent />
   <div class="p-5 bg-quinto pb-20 dark:bg-primary dark:text-white">
     <div class="mt-16"></div>
-    <GoBackComponent />
+    <router-link to="/">
+      <GoBackComponent />
+    </router-link>
     <div
       class="px-5 py-7 flex justify-between bg-white rounded-lg items-center mb-5 dark:bg-secondary border-slate-300 border dark:border-0">
       <div class="text-slate-400">Status</div>

@@ -7,7 +7,9 @@ import HeaderComponent from '@/components/HeaderComponent.vue';
     <HeaderComponent />
     <div class="p-5 bg-quinto pb-5 dark:bg-primary dark:text-white">
         <div class="mt-16"></div>
-        <GoBackComponent />
+        <router-link to="/">
+            <GoBackComponent />
+        </router-link>
         <div class="mb-5">
             <p class="text-3xl font-bold mb-5">New Invoice</p>
             <p class="text-blue-500 font-semibold">Bill From</p>
