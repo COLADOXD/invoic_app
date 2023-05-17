@@ -1,6 +1,6 @@
 <script setup lang="ts"></script>
 <template>
-    <div class="bg-white p-6 rounded-md dark:bg-secondary dark:text-white">
+    <div class="bg-white p-6 rounded-md dark:bg-secondary dark:text-white border-slate-300 border dark:border-0">
         <div class="flex justify-between mb-4">
             <p class=" font-semibold text-lg"><span class="text-blue-300">#</span>RT3080</p>
             <p class="text-slate-400 font-light dark:text-white">Jensen Huang</p>
