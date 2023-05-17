@@ -8,7 +8,7 @@ import Invoices from "@/components/InvoicesComponent.vue"
 <template>
   <HeaderComponent />
   <div class="px-5 pt-5">
-    <div class="flex justify-between mb-5 dark:text-white mt-16">
+    <div class="flex justify-between mb-5 dark:text-white mt-20">
       <div>
         <p class="text-2xl font-bold">Invoices</p>
         <p class="text-slate-400">0 voices</p>
