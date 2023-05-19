@@ -1,6 +1,41 @@
 <script setup lang="ts">
 import GoBackComponent from '@/components/GoBackComponent.vue'
 import HeaderComponent from '@/components/HeaderComponent.vue';
+import { useStore } from '@/stores/state';
+import { reactive } from 'vue';
+import Datepicker from 'vue3-datepicker';
+
+const store = useStore();
+
+const state = reactive({
+    selectedDate: Date,
+    fromAdrees: '',
+    fromCity: '',
+    fromPostCode: undefined as number | undefined,
+    toName: '',
+    toEmail: '',
+    toAddress: '',
+    toCity: '',
+    toPostCode: undefined as number | undefined,
+    toPaymentTerms: '',
+    toProyect: '',
+    checkSelectedDate: true,
+    checkFromAdrees: true,
+    checkFromCity: true,
+    checkFromPostCode: true,
+    checkToName: true,
+    checkToEmail: true,
+    checkToAddress: true,
+    checkToCity: true,
+    checkToPostCode: true,
+    checkToPaymentTerms: true,
+    checkToProyect: true,
+});
+
+const checkInput = () => {
+    console.log(state.fromAdrees);
+};
+console.log(state.fromAdrees);
 </script>
 
 <template>
@@ -15,57 +50,71 @@ import HeaderComponent from '@/components/HeaderComponent.vue';
             <p class="text-blue-500 font-semibold">Bill From</p>
         </div>
         <div class="mb-5">
-            <p class="text-slate-500 text-sm mb-3 dark:text-white">Street Adrees</p>
-            <input class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border" type="text">
+            <div class="flex justify-between">
+                <p class="text-slate-500 text-sm mb-3 dark:text-white"
+                    :class="state.fromAdrees === '' ? 'dark:text-white border-red-500 border-sm' : 'dark:text-red-700'">
+                    Street Adrees
+                </p>
+                <div v-if="state.fromAdrees">can't be empty</div>
+            </div>
+            <input v-model="state.fromAdrees" @blur="checkInput"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border" type="text">
         </div>
         <div class="mb-5 flex">
             <div>
                 <p class="text-slate-500 text-sm mb-3 dark:text-white">City</p>
-                <input type="text"
+                <input v-model="state.fromCity" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary dark:border-0 pl-5 border rounded-md">
             </div>
             <div class="ml-10">
                 <p class="text-slate-500 text-sm mb-3 dark:text-white">Post Code</p>
-                <input type="text"
+                <input v-model="state.fromPostCode" type="number"
                     class="w-full h-12 border-slate-300 dark:bg-secondary dark:border-0 pl-5 border rounded-md">
             </div>
         </div>
         <p class="text-blue-500 font-semibold mb-5">Bill To</p>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 dark:text-white">Client's Name</p>
-            <input class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border " type="text">
+            <input v-model="state.toName"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border " type="text">
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 dark:text-white">Client's Email</p>
-            <input class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border " type="text">
+            <input v-model="state.toEmail"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border " type="text">
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 dark:text-white">Street Adrees</p>
-            <input class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border" type="text">
+            <input v-model="state.toAddress"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border" type="text">
         </div>
         <div class="mb-5 flex">
             <div>
                 <p class="text-slate-500 text-sm mb-3 dark:text-white">City</p>
-                <input type="text"
+                <input v-model="state.toCity" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary dark:border-0 pl-5 border rounded-md">
             </div>
             <div class="ml-10">
                 <p class="text-slate-500 text-sm mb-3 dark:text-white">Post Code</p>
-                <input type="text"
+                <input v-model="state.toPostCode" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary dark:border-0 pl-5 border rounded-md">
             </div>
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 dark:text-white">Invoice Data</p>
-            <input class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border " type="text">
+            <Datepicker class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border"
+                v-model="state.selectedDate" />
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 dark:text-white">Payment Terms</p>
-            <div class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border"></div>
+            <input v-model="state.toPaymentTerms"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 pl-5 border " type="text">
+
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 dark:text-white">Project Description</p>
-            <input class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 border pl-5"
+            <input v-model="state.toProyect"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary dark:border-0 border pl-5"
                 placeholder="e.g. Graphic Design Service" type="text">
         </div>
     </div>
