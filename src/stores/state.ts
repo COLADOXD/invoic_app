@@ -5,6 +5,11 @@ export const useStore = defineStore({
     state: () => ({
         nameProyect:"invoic_app",
         isDark: false,
+        invoic: {
+            fromAdrees: '',
+    fromCity: '',
+    fromPostCode: 0,    
+        }
     }),
     persist: true,
 })
