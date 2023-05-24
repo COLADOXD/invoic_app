@@ -24,7 +24,7 @@ const store = useStore()
       </div>
       <div class="flex flex-row">
         <FilterComponent />
-        <div class="px-3"></div>
+        <div class="px-1"></div>
         <NewComponent />
       </div>
     </div>
