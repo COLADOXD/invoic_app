@@ -8,7 +8,7 @@ export interface Items {
 
 export interface Invoice {
     // codeInvoic: string;
-    fromAdrees: string, // address
+    fromAddress: string, // address
     fromCity: string,
     fromPostCode: number | undefined,
     toName: string,
@@ -17,7 +17,7 @@ export interface Invoice {
     toCity: string,
     toPostCode: number | undefined,
     toPaymentTerms: string,
-    toProyect: string, // project
+    toProject: string, // project
     items: Items[],
     // selectedDate: string,
 }
@@ -26,7 +26,7 @@ export interface Invoice {
 export const useStore = defineStore({
     id:"store",
     state: () => ({
-        nameProyect:"invoic_app",
+        nameProject:"invoic_app",
         isDark: false,
         invoices: [] as Invoice[]
     }),
@@ -36,7 +36,7 @@ export const useStore = defineStore({
             if(this.invoices.length == 0)
             this.invoices.push({
                 // codeInvoic: 'RT3080',
-                fromAdrees: 'centro',
+                fromAddress: 'centro',
                 fromCity: 'logrono',
                 fromPostCode: 1000,
                 toName: 'mateo',
@@ -45,7 +45,7 @@ export const useStore = defineStore({
                 toCity: 'cuenca',
                 toPostCode: 2000,
                 toPaymentTerms: '1 dia',
-                toProyect: 'probar',
+                toProject: 'probar',
                 items: [{
                     qty: 2, 
                     price: 10, 

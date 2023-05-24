@@ -24,9 +24,8 @@ const store = useStore()
       </div>
       <div class="flex flex-row">
         <FilterComponent />
-        <router-link to="/invoic">
-          <NewComponent />
-        </router-link>
+        <div class="px-3"></div>
+        <NewComponent />
       </div>
     </div>
     <router-link to="/about">

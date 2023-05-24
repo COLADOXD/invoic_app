@@ -15,8 +15,8 @@ const routes: Array<RouteRecordRaw> = [
     component: AboutInvoiceView
   },
   {
-    path: '/invoic',
-    name: 'invoic',
+    path: '/invoice',
+    name: 'invoice',
     component: AddInvoiceView
   }
 ]

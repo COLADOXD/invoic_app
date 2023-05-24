@@ -11,7 +11,7 @@ const store = useStore();
 
 const state = reactive({
     selectedDate: Date,
-    fromAdrees: '',
+    fromAddress: '',
     fromCity: '',
     fromPostCode: undefined as number | undefined,
     toName: '',
@@ -20,12 +20,12 @@ const state = reactive({
     toCity: '',
     toPostCode: undefined as number | undefined,
     toPaymentTerms: '',
-    toProyect: '',
+    toProject: '',
 });
 
 const checkInfo = reactive({
     checkSelectedDate: true,
-    checkFromAdrees: true,
+    checkFromAddress: true,
     checkFromCity: true,
     checkFromPostCode: true,
     checkToName: true,
@@ -34,10 +34,10 @@ const checkInfo = reactive({
     checkToCity: true,
     checkToPostCode: true,
     checkToPaymentTerms: true,
-    checkToProyect: true,
+    checkToProject: true,
 })
 
-const codeInvoic = () => {
+const codeInvoice = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let randomName = '';
 
@@ -50,8 +50,8 @@ const codeInvoic = () => {
 }
 
 const checkInput = () => {
-    if (state.fromAdrees === '') checkInfo.checkFromAdrees = false
-    else { checkInfo.checkFromAdrees = true }
+    if (state.fromAddress === '') checkInfo.checkFromAddress = false
+    else { checkInfo.checkFromAddress = true }
     if (state.fromCity === '') checkInfo.checkFromCity = false
     else { checkInfo.checkFromCity = true }
     if (state.fromPostCode === undefined) checkInfo.checkFromPostCode = false
@@ -70,12 +70,12 @@ const checkInput = () => {
     else { checkInfo.checkSelectedDate = true }
     if (state.toPaymentTerms === '') checkInfo.checkToPaymentTerms = false
     else { checkInfo.checkToPaymentTerms = true }
-    if (state.toProyect === '') checkInfo.checkToProyect = false
-    else { checkInfo.checkToProyect = true }
-    if (checkInfo.checkSelectedDate, checkInfo.checkFromAdrees, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProyect === true) {
+    if (state.toProject === '') checkInfo.checkToProject = false
+    else { checkInfo.checkToProject = true }
+    if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
         store.invoices.push({
             // codeName: codeInvoic(),
-            fromAdrees: state.fromAdrees,
+            fromAddress: state.fromAddress,
             fromCity: state.fromCity,
             fromPostCode: state.fromPostCode,
             toName: state.toName,
@@ -84,7 +84,7 @@ const checkInput = () => {
             toCity: state.toCity,
             toPostCode: state.toPostCode,
             toPaymentTerms: state.toPaymentTerms,
-            toProyect: state.toProyect,
+            toProject: state.toProject,
             items: [{
                 qty: 2,
                 price: 10,
@@ -106,7 +106,7 @@ const removeItem = (index: number) => {
     console.log("remover el siguiente" + index + ",1")
     items.value.splice(index, 1)
 }
-codeInvoic()
+console.log(codeInvoice())
 </script>
 
 <template>
@@ -123,14 +123,14 @@ codeInvoic()
         <div class="mb-5">
             <div class="flex justify-between">
                 <p class="text-slate-500 mb-3 "
-                    :class="!checkInfo.checkFromAdrees ? 'dark:text-red-700' : 'dark:text-white'">
-                    Street Adrees
+                    :class="!checkInfo.checkFromAddress ? 'dark:text-red-700' : 'dark:text-white'">
+                    Street Address
                 </p>
-                <div v-if="!checkInfo.checkFromAdrees" class="text-[10px] text-red-700 flex items-center">can't be empty
+                <div v-if="!checkInfo.checkFromAddress" class="text-[10px] text-red-700 flex items-center">can't be empty
                 </div>
             </div>
-            <input v-model="state.fromAdrees" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
-                :class="!checkInfo.checkFromAdrees ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+            <input v-model="state.fromAddress" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
+                :class="!checkInfo.checkFromAddress ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
 
         </div>
         <div class="mb-5 flex">
@@ -175,7 +175,7 @@ codeInvoic()
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToAddress ? 'dark:text-red-700' : 'dark:text-white'">
-                Street Adrees</p>
+                Street Address</p>
             <input v-model="state.toAddress" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
                 :class="!checkInfo.checkToAddress ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
@@ -218,12 +218,12 @@ codeInvoic()
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
-                :class="!checkInfo.checkToProyect ? 'dark:text-red-700' : 'dark:text-white'">
+                :class="!checkInfo.checkToProject ? 'dark:text-red-700' : 'dark:text-white'">
                 Project Description</p>
-            <input v-model="state.toProyect" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  border pl-5"
-                :class="!checkInfo.checkToProyect ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
+            <input v-model="state.toProject" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  border pl-5"
+                :class="!checkInfo.checkToProject ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
                 placeholder="e.g. Graphic Design Service" type="text">
-            <div v-if="!checkInfo.checkToProyect" class="text-[10px] text-red-700">can't be empty</div>
+            <div v-if="!checkInfo.checkToProject" class="text-[10px] text-red-700">can't be empty</div>
         </div>
 
         <p class="dark:text-slate-400 font-bold text-2xl mb-5">Item list</p>
