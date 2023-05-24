@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HeaderComponent from "@/components/HeaderComponent.vue";
-import DetailsInvoicComponent from "@/components/DetailsInvoicComponent.vue";
+import DetailsInvoiceComponent from "@/components/DetailsInvoiceComponent.vue";
 import GoBackComponent from "@/components/GoBackComponent.vue";
 </script>
 
@@ -19,7 +19,7 @@ import GoBackComponent from "@/components/GoBackComponent.vue";
         <p>Paid</p>
       </div>
     </div>
-    <DetailsInvoicComponent />
+    <DetailsInvoiceComponent />
   </div>
   <div
     class="bg-white dark:bg-secondary p-5 text-sm flex justify-center items-center dark:text-white border-slate-300 border-t dark:border-0">

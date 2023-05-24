@@ -5,7 +5,6 @@ import { useStore } from '@/stores/state';
 import { reactive, ref } from 'vue';
 import Datepicker from 'vue3-datepicker';
 import CreateItem from '../components/CreateItem.vue'
-import { C } from '@fullcalendar/core/internal-common';
 
 const store = useStore();
 
@@ -74,7 +73,7 @@ const checkInput = () => {
     else { checkInfo.checkToProject = true }
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
         store.invoices.push({
-            // codeName: codeInvoic(),
+            // codeName: codeInvoice(),
             fromAddress: state.fromAddress,
             fromCity: state.fromCity,
             fromPostCode: state.fromPostCode,

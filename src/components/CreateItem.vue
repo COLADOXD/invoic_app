@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed, defineEmits } from "vue"
+
+const emits = defineEmits(["deleteItem"]);
 
 const priceItem = ref(0);
 const qtyItem = ref(1);
-
-const emits = defineEmits(["deleteItem"]);
 
 const priceTotal = computed(() => {
     return priceItem.value * qtyItem.value
