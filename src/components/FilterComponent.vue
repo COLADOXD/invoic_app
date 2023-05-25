@@ -16,7 +16,7 @@ const showContainer = () => {
 <template>
     <div class="flex flex-col">
         <div @click="showContainer" class="flex items-center mt-2 justify-center">
-            <div v-if="selectFilter" class="h-8 mr-2 w-[2px] bg-black dark:bg-white"></div>
+            <div v-if="selectFilter" class="h-8 mr-4 w-[2px] bg-black dark:bg-white"></div>
             <p class="font-bold mr-2">Filter</p>
             <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1l4.228 4.228L9.456 1" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
