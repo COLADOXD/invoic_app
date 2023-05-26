@@ -73,7 +73,7 @@ const checkInput = () => {
     else { checkInfo.checkToProject = true }
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
         store.invoices.push({
-            // codeName: codeInvoice(),
+            codeInvoice: codeInvoice(),
             fromAddress: state.fromAddress,
             fromCity: state.fromCity,
             fromPostCode: state.fromPostCode,

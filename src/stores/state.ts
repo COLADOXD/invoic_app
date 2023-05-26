@@ -7,7 +7,7 @@ export interface Items {
 }
 
 export interface Invoice {
-    // codeInvoic: string;
+    codeInvoice: string;
     fromAddress: string, // address
     fromCity: string,
     fromPostCode: number | undefined,
@@ -35,7 +35,7 @@ export const useStore = defineStore({
         getInvoices(){
             if(this.invoices.length == 0)
             this.invoices.push({
-                // codeInvoic: 'RT3080',
+                codeInvoice: 'RT3080',
                 fromAddress: 'centro',
                 fromCity: 'logrono',
                 fromPostCode: 1000,
