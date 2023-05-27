@@ -8,9 +8,9 @@ const store = useStore()
 
 <template>
     <div v-for="(invoic, index) in store.invoices" :key="index">
-        <div class="bg-white p-6 rounded-md dark:bg-secondary dark:text-white border-slate-300 border dark:border-0">
+        <div class="bg-white p-6 rounded-md dark:bg-secondary dark:text-white border-slate-300 border dark:border-0 mt-4">
             <div class="flex justify-between mb-4">
-                <p class=" font-semibold text-lg"><span class="text-blue-300">#</span>{{ invoic.codeInvoic }}</p>
+                <p class=" font-semibold text-lg"><span class="text-blue-300">#</span>{{ invoic.codeInvoice }}</p>
                 <p class="text-slate-400 font-light dark:text-white">{{ invoic.toName }}</p>
             </div>
             <div class="flex justify-between items-center">

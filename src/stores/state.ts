@@ -8,7 +8,7 @@ export interface Items {
 
 export interface Invoice {
     codeInvoice: string;
-    fromAddress: string, // address
+    fromAddress: string, 
     fromCity: string,
     fromPostCode: number | undefined,
     toName: string,
@@ -17,7 +17,7 @@ export interface Invoice {
     toCity: string,
     toPostCode: number | undefined,
     toPaymentTerms: string,
-    toProject: string, // project
+    toProject: string,
     items: Items[],
     // selectedDate: string,
 }
