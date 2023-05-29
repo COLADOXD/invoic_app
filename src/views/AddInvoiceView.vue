@@ -3,10 +3,12 @@ import GoBackComponent from '@/components/GoBackComponent.vue'
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import { useStore } from '@/stores/state';
 import { reactive, ref } from 'vue';
-import Datepicker from 'vue3-datepicker';
 import CreateItem from '../components/CreateItem.vue'
+import { useRouter } from 'vue-router';
+import Datepicker from 'vue3-datepicker';
 
 const store = useStore();
+const router = useRouter();
 
 const state = reactive({
     selectedDate: Date,
@@ -36,6 +38,11 @@ const checkInfo = reactive({
     checkToProject: true,
 })
 
+const formatDate = () => {
+    console.log(state.selectedDate)
+    return state.selectedDate.toLocaleString()
+}
+
 const codeInvoice = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let randomName = '';
@@ -44,7 +51,6 @@ const codeInvoice = () => {
         const randomIndex = Math.floor(Math.random() * characters.length);
         randomName += characters[randomIndex];
     }
-    console.log(typeof randomName);
     return randomName;
 }
 
@@ -72,6 +78,7 @@ const checkInput = () => {
     if (state.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
+        router.push('/');
         store.invoices.push({
             codeInvoice: codeInvoice(),
             fromAddress: state.fromAddress,
@@ -88,11 +95,10 @@ const checkInput = () => {
                 qty: 2,
                 price: 10,
                 totalPrice: 20
-            }]
-            // selectedDate: state.selectedDate,
+            }],
+            selectedDate: formatDate(),
         })
     } else { console.log("no funciona") }
-    console.log(store.invoices)
 }
 
 const items = ref<number[]>([]);
@@ -102,16 +108,16 @@ const addItem = () => {
 }
 
 const removeItem = (index: number) => {
-    console.log("remover el siguiente" + index + ",1")
     items.value.splice(index, 1)
 }
-console.log(codeInvoice())
 </script>
 
 <template>
     <HeaderComponent />
     <div class="p-5 bg-quinto pb-5 dark:bg-primary dark:text-white">
         <div class="mt-16"></div>
+        {{ checkInfo.checkFromAddress }}
+        {{ checkInfo.checkFromCity }}
         <router-link to="/">
             <GoBackComponent />
         </router-link>
@@ -130,7 +136,6 @@ console.log(codeInvoice())
             </div>
             <input v-model="state.fromAddress" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
                 :class="!checkInfo.checkFromAddress ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
-
         </div>
         <div class="mb-5 flex">
             <div>
@@ -201,7 +206,7 @@ console.log(codeInvoice())
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkSelectedDate ? 'dark:text-red-700' : 'dark:text-white'">Invoice Date</p>
-            <Datepicker class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
+            <input type="date" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
                 :class="!checkInfo.checkSelectedDate ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
                 v-model="state.selectedDate" />
             <div v-if="!checkInfo.checkSelectedDate" class="text-[10px] text-red-700">can't be empty</div>
@@ -240,15 +245,11 @@ console.log(codeInvoice())
         <router-link to="/">
             <button class="p-3 rounded-full bg-cuarto text-slate-400 dark:text-white">Discard</button>
         </router-link>
-        <router-link to="/">
-            <button @click="checkInput()" class="p-3 rounded-full bg-terceary mx-3 text-slate-400 dark:text-white">Save as
-                Draft
-            </button>
-        </router-link>
-        <router-link to="/">
-            <button @click="checkInput()" class="p-3 rounded-full bg-blue-500 text-white ">
-                Save & Send
-            </button>
-        </router-link>
+        <button @click="checkInput()" class="p-3 rounded-full bg-terceary mx-3 text-slate-400 dark:text-white">Save as
+            Draft
+        </button>
+        <button @click="checkInput()" class="p-3 rounded-full bg-blue-500 text-white ">
+            Save & Send
+        </button>
     </div>
 </template>

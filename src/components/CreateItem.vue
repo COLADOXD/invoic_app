@@ -12,7 +12,6 @@ const priceTotal = computed(() => {
 
 const removeItem = () => {
     emits("deleteItem")
-    console.log("emit")
 }
 </script>
 

@@ -19,7 +19,7 @@ export interface Invoice {
     toPaymentTerms: string,
     toProject: string,
     items: Items[],
-    // selectedDate: string,
+    selectedDate: string,
 }
 
 
@@ -49,7 +49,8 @@ export const useStore = defineStore({
                 items: [{
                     qty: 2, 
                     price: 10, 
-                    totalPrice: 20}]
+                    totalPrice: 20}],
+                selectedDate: 'Due 19 Aug 2021'
             })
         }
     },
