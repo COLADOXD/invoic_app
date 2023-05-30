@@ -25,16 +25,16 @@ const showContainer = () => {
         <div v-if="selectFilter"
             class="p-4 rounded-lg drop-shadow-lg mt-4 bg-white absolute top-[140px] right-[105px] dark:bg-cuarto">
             <div class="flex">
-                <input @click="viewFilter('Draft')" type="checkbox" class="bg-slate-400 p-2" id="myCheckbox">
-                <label for="myCheckbox" class="ml-2 font-semibold text-sm">Draft</label>
+                <input @click="viewFilter('Draft')" type="checkbox" class="bg-slate-400 p-2" id="Draft">
+                <label for="Draft" class="ml-2 font-semibold text-sm">Draft</label>
             </div>
             <div class="flex my-3">
-                <input @click="viewFilter('Pending')" type="checkbox" class="bg-slate-400 p-2" id="myCheckbox">
-                <label for="myCheckbox" class="ml-2 font-semibold text-sm">Pending</label>
+                <input @click="viewFilter('Pending')" type="checkbox" class="bg-slate-400 p-2" id="Pending">
+                <label for="Pending" class="ml-2 font-semibold text-sm">Pending</label>
             </div>
             <div class="flex">
-                <input @click="viewFilter('Paid')" type="checkbox" class="bg-slate-400 p-2" id="myCheckbox">
-                <label for="myCheckbox" class="ml-2 font-semibold text-sm">Paid</label>
+                <input @click="viewFilter('Paid')" type="checkbox" class="bg-slate-400 p-2" id="Paid">
+                <label for="Paid" class="ml-2 font-semibold text-sm">Paid</label>
             </div>
         </div>
     </div>
