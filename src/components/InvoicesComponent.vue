@@ -6,11 +6,9 @@ const store = useStore()
 
 const totalPriceItems = (totalPrice: Array<Items>) => {
     return totalPrice.reduce((accumulator, item) => {
-        console.log(accumulator + item.totalPriceItem)
         return accumulator + item.totalPriceItem;
     }, 0);
 }
-console.log(`valor de ${totalPriceItems(store.invoices[0].items)}`);
 </script>
 
 <template>
@@ -23,7 +21,7 @@ console.log(`valor de ${totalPriceItems(store.invoices[0].items)}`);
             <div class="flex justify-between items-center">
                 <div>
                     <p class="text-slate-400 font-light dark:text-white">{{ invoice.selectedDate }}</p>
-                    <p class="font-bold text-xl">${{ totalPriceItems(invoice.items) }}</p>
+                    <p class="font-bold text-xl">${{ totalPriceItems(invoice.items) }}.00</p>
                 </div>
                 <div class="flex py-4 px-8 bg-orange-100 items-center rounded-lg h-[40px] dark:bg-slate-700">
                     <div class="h-2 w-2 rounded-full bg-green-400 mr-2"></div>

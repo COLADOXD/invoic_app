@@ -9,8 +9,6 @@ import { Items } from '../stores/state';
 
 const store = useStore();
 const router = useRouter();
-const priceItem = ref(0);
-const quantityItem = ref(0);
 
 const state = reactive({
     selectedDate: Date,
@@ -104,7 +102,7 @@ const checkInput = () => {
     else { checkInfo.checkToPaymentTerms = true }
     if (state.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
-    if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
+    if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true &&  ) {
         router.push('/');
         store.invoices.push({
             codeInvoice: codeInvoice(),
