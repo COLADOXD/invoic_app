@@ -2,9 +2,9 @@ import { defineStore } from "pinia";
 import { ComputedRef } from "vue";
 
 export interface Items {
-    qty: number;
-    price: number;
-    totalPrice: number;
+    qtyItem: number;
+    priceItem: number;
+    totalPriceItem: number;
 }
 
 export interface Invoice {
@@ -48,9 +48,9 @@ export const useStore = defineStore({
                 toPaymentTerms: '1 dia',
                 toProject: 'probar',
                 items: [{
-                    qty: 2, 
-                    price: 10, 
-                    totalPrice: 20}],
+                    qtyItem: 2, 
+                    priceItem: 10, 
+                    totalPriceItem: 20}],
                 selectedDate: 'Due 19 Aug 2021'
             })
         }

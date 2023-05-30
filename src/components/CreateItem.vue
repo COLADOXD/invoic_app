@@ -1,18 +1,26 @@
 <script setup lang="ts">
-import { ref, computed, defineEmits } from "vue"
+import { ref, computed, defineEmits, defineProps } from "vue"
 
-const emits = defineEmits(["deleteItem"]);
+const emits = defineEmits(["deleteItem", "changeItem"]);
+const props = defineProps({
+    itemIndex: {
+        type: Number,
+        required: true
+    }
+})
 
 const priceItem = ref(0);
 const qtyItem = ref(1);
 
 const priceTotal = computed(() => {
+    emits("changeItem", props.itemIndex, priceItem.value, qtyItem.value);
     return priceItem.value * qtyItem.value
 })
 
 const removeItem = () => {
     emits("deleteItem")
 }
+
 </script>
 
 <template>

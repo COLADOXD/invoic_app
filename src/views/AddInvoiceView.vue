@@ -5,10 +5,12 @@ import { useStore } from '@/stores/state';
 import { reactive, ref, computed } from 'vue';
 import CreateItem from '../components/CreateItem.vue'
 import { useRouter } from 'vue-router';
-import Datepicker from 'vue3-datepicker';
+import { Items } from '../stores/state';
 
 const store = useStore();
 const router = useRouter();
+const priceItem = ref(0);
+const quantityItem = ref(0);
 
 const state = reactive({
     selectedDate: Date,
@@ -116,20 +118,27 @@ const checkInput = () => {
             toPostCode: state.toPostCode,
             toPaymentTerms: state.toPaymentTerms,
             toProject: state.toProject,
-            items: [{
-                qty: 2,
-                price: 10,
-                totalPrice: 20
-            }],
+            items: items.value,
             selectedDate: formattedDate.value,
         })
+        console.log(items.value)
     } else { console.log("no funciona") }
 }
 
-const items = ref<number[]>([]);
+const items = ref<Items[]>([]);
 
 const addItem = () => {
-    items.value.push(0)
+    items.value.push({
+        qtyItem: 1,
+        priceItem: 0,
+        totalPriceItem: 0
+    })
+}
+
+const changeValueItem = (index: number, price: number, qty: number) => {
+    items.value[index].qtyItem = qty
+    items.value[index].priceItem = price
+    items.value[index].totalPriceItem = qty * price
 }
 
 const removeItem = (index: number) => {
@@ -257,7 +266,7 @@ const removeItem = (index: number) => {
 
         <p class="dark:text-slate-400 font-bold text-2xl mb-5">Item list</p>
         <div v-for="(item, index) in items" :key="index">
-            <CreateItem @deleteItem="removeItem(index)" />
+            <CreateItem @deleteItem="removeItem(index)" @changeItem="changeValueItem" :itemIndex="index" />
         </div>
         <div @click="addItem"
             class="flex rounded-3xl py-2 dark:bg-secondary flex-col justify-center items-center font-bold text-sm mt-4">
