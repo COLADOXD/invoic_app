@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { ComputedRef } from "vue";
 
 export interface Items {
     qty: number;
@@ -19,7 +20,7 @@ export interface Invoice {
     toPaymentTerms: string,
     toProject: string,
     items: Items[],
-    selectedDate: string,
+    selectedDate: ComputedRef<string>,
 }
 
 

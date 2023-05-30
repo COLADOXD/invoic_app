@@ -2,7 +2,7 @@
 import GoBackComponent from '@/components/GoBackComponent.vue'
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import { useStore } from '@/stores/state';
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import CreateItem from '../components/CreateItem.vue'
 import { useRouter } from 'vue-router';
 import Datepicker from 'vue3-datepicker';
@@ -38,9 +38,34 @@ const checkInfo = reactive({
     checkToProject: true,
 })
 
-const formatDate = () => {
-    console.log(state.selectedDate)
-    return state.selectedDate.toLocaleString()
+const formattedDate = computed(() => {
+    const dateString = state.selectedDate.toLocaleString()
+    const dateParts = dateString.split("-");
+    const year = dateParts[0];
+    const month = getMonthName(dateParts[1]);
+    const day = dateParts[2];
+
+    return `Due ${day} ${month} ${year}`;
+});
+
+function getMonthName(month: string): string {
+    const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ];
+
+    const monthIndex = parseInt(month, 10) - 1;
+    return months[monthIndex];
 }
 
 const codeInvoice = () => {
@@ -96,7 +121,7 @@ const checkInput = () => {
                 price: 10,
                 totalPrice: 20
             }],
-            selectedDate: formatDate(),
+            selectedDate: formattedDate.value,
         })
     } else { console.log("no funciona") }
 }
