@@ -45,7 +45,7 @@ const formattedDate = computed(() => {
     const month = getMonthName(dateParts[1]);
     const day = dateParts[2];
 
-    return `Due ${day} ${month} ${year}`;
+    return ` ${day} ${month} ${year}`;
 });
 
 function getMonthName(month: string): string {

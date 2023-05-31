@@ -42,7 +42,7 @@ export const useStore = defineStore({
                 fromPostCode: 1000,
                 toName: 'mateo',
                 toEmail: 'xdmateo',
-                toAddress: 'under',
+                toAddress: 'cerca',
                 toCity: 'cuenca',
                 toPostCode: 2000,
                 toPaymentTerms: '1 dia',
@@ -51,7 +51,7 @@ export const useStore = defineStore({
                     qtyItem: 2, 
                     priceItem: 10, 
                     totalPriceItem: 20}],
-                selectedDate: 'Due 19 Aug 2021'
+                selectedDate: '19 Aug 2021'
             })
         }
     },
