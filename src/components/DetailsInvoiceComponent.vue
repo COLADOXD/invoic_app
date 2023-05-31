@@ -50,7 +50,7 @@ const totalPriceItems = (totalPrice: Array<Items>) => {
         <div v-for="(item, index) in invoice.items" :key="index">
             <div class="p-5 bg-quinto flex justify-between items-center rounded-t-lg dark:bg-cuarto">
                 <div>
-                    <p class="font-bold">{{ item.nameItem }}</p>
+                    <p class="text-sm">{{ item.nameItem }}</p>
                     <p class="text-blue-500 font-medium">{{ item.qtyItem }} x ${{ item.priceItem }}.00</p>
                 </div>
                 <div>
