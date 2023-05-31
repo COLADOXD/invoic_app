@@ -2,12 +2,19 @@
 import { useStore } from '@/stores/state';
 import { useRoute } from "vue-router";
 import { ref } from 'vue'
+import { Items } from '../stores/state';
 
 const store = useStore()
 const route = useRoute();
 const param = ref()
 param.value = route.params.index
-const invoice = store.invoices[param.value]
+const invoice = store.invoices[param.value];
+
+const totalPriceItems = (totalPrice: Array<Items>) => {
+    return totalPrice.reduce((accumulator, item) => {
+        return accumulator + item.totalPriceItem;
+    }, 0);
+}
 </script>
 
 <template>
@@ -40,18 +47,20 @@ const invoice = store.invoices[param.value]
             <p class="text-slate-400">Sent to</p>
             <p class="font-bold text-xl">{{ invoice.toEmail }}</p>
         </div>
-        <div class="p-5 bg-quinto flex justify-between items-center rounded-t-lg dark:bg-cuarto">
-            <div>
-                <p class="font-bold">Banner Design</p>
-                <p class="text-blue-500 font-medium">1 x $156.00</p>
-            </div>
-            <div>
-                <p class="font-bold text-xl">$156.00</p>
+        <div v-for="(item, index) in invoice.items" :key="index">
+            <div class="p-5 bg-quinto flex justify-between items-center rounded-t-lg dark:bg-cuarto">
+                <div>
+                    <p class="font-bold">{{ item.nameItem }}</p>
+                    <p class="text-blue-500 font-medium">{{ item.qtyItem }} x ${{ item.priceItem }}.00</p>
+                </div>
+                <div>
+                    <p class="font-bold text-xl">${{ item.totalPriceItem }}.00</p>
+                </div>
             </div>
         </div>
         <div class="flex justify-between p-5 bg-terceary dark:bg-black text-white items-center rounded-b-lg">
             <p>Grand Total</p>
-            <p class="font-bold text-3xl">$556.00</p>
+            <p class="font-bold text-3xl">${{ totalPriceItems(invoice.items) }}.00</p>
         </div>
     </div>
 </template>
