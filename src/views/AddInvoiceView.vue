@@ -15,11 +15,13 @@ const state = reactive({
     fromAddress: '',
     fromCity: '',
     fromPostCode: undefined as number | undefined,
+    fromCountry: '',
     toName: '',
     toEmail: '',
     toAddress: '',
     toCity: '',
     toPostCode: undefined as number | undefined,
+    toCountry: '',
     toPaymentTerms: '',
     toProject: '',
 });
@@ -29,11 +31,13 @@ const checkInfo = reactive({
     checkFromAddress: true,
     checkFromCity: true,
     checkFromPostCode: true,
+    checkFromCountry: true,
     checkToName: true,
     checkToEmail: true,
     checkToAddress: true,
     checkToCity: true,
     checkToPostCode: true,
+    checkToCountry: true,
     checkToPaymentTerms: true,
     checkToProject: true,
 })
@@ -44,7 +48,6 @@ const formattedDate = computed(() => {
     const year = dateParts[0];
     const month = getMonthName(dateParts[1]);
     const day = dateParts[2];
-
     return ` ${day} ${month} ${year}`;
 });
 
@@ -86,6 +89,8 @@ const checkInput = () => {
     else { checkInfo.checkFromCity = true }
     if (state.fromPostCode === undefined) checkInfo.checkFromPostCode = false
     else { checkInfo.checkFromPostCode = true }
+    if (state.fromCountry === '') checkInfo.checkFromCountry = false
+    else { checkInfo.checkFromCountry = true }
     if (state.toName === '') checkInfo.checkToName = false
     else { checkInfo.checkToName = true }
     if (state.toEmail === '') checkInfo.checkToEmail = false
@@ -96,12 +101,15 @@ const checkInput = () => {
     else { checkInfo.checkToCity = true }
     if (state.toPostCode === undefined) checkInfo.checkToPostCode = false
     else { checkInfo.checkToPostCode = true }
+    if (state.toCountry === '') checkInfo.checkToCountry = false
+    else { checkInfo.checkToCountry = true }
     if (state.selectedDate === Date) checkInfo.checkSelectedDate = false
     else { checkInfo.checkSelectedDate = true }
     if (state.toPaymentTerms === '') checkInfo.checkToPaymentTerms = false
     else { checkInfo.checkToPaymentTerms = true }
     if (state.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
+    console.log(typeof state.fromCountry)
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
         router.push('/');
         store.invoices.push({
@@ -109,11 +117,13 @@ const checkInput = () => {
             fromAddress: state.fromAddress,
             fromCity: state.fromCity,
             fromPostCode: state.fromPostCode,
+            fromCountry: state.fromCountry,
             toName: state.toName,
             toEmail: state.toEmail,
             toAddress: state.toAddress,
             toCity: state.toCity,
             toPostCode: state.toPostCode,
+            toCountry: state.toCountry,
             toPaymentTerms: state.toPaymentTerms,
             toProject: state.toProject,
             items: items.value,
@@ -188,6 +198,18 @@ const removeItem = (index: number) => {
                 <div v-if="!checkInfo.checkFromPostCode" class="text-[10px] text-red-700">can't be empty</div>
             </div>
         </div>
+        <div class="mb-5">
+            <div class="flex justify-between">
+                <p class="text-slate-500 mb-3 "
+                    :class="!checkInfo.checkFromCountry ? 'dark:text-red-700' : 'dark:text-white'">
+                    Country
+                </p>
+                <div v-if="!checkInfo.checkFromCountry" class="text-[10px] text-red-700 flex items-center">can't be empty
+                </div>
+            </div>
+            <input v-model="state.fromCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
+                :class="!checkInfo.checkFromCountry ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+        </div>
         <p class="text-blue-500 font-semibold mb-5">Bill To</p>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3 "
@@ -234,6 +256,18 @@ const removeItem = (index: number) => {
                     :class="!checkInfo.checkToPostCode ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkToPostCode" class="text-[10px] text-red-700">can't be empty</div>
             </div>
+        </div>
+        <div class="mb-5">
+            <div class="flex justify-between">
+                <p class="text-slate-500 mb-3 "
+                    :class="!checkInfo.checkToCountry ? 'dark:text-red-700' : 'dark:text-white'">
+                    Country
+                </p>
+                <div v-if="!checkInfo.checkToCountry" class="text-[10px] text-red-700 flex items-center">can't be empty
+                </div>
+            </div>
+            <input v-model="state.toCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
+                :class="!checkInfo.checkToCountry ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"

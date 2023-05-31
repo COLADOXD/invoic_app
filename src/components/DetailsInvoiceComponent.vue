@@ -14,11 +14,11 @@ const invoice = store.invoices[param.value]
     <div class="p-5 bg-white rounded-lg pb-7 dark:bg-secondary border-slate-300 border dark:border-0 md:justify-between">
         <p class=" font-semibold text-lg"><span class="text-blue-500">#</span>{{ invoice.codeInvoice }}</p>
         <div class="text-slate-400 mb-7">
-            <p class="mb-7">Grphic Design</p>
+            <p class="mb-7">Graphic Design</p>
             <p>{{ invoice.fromAddress }}</p>
             <p>{{ invoice.fromCity }}</p>
             <p>{{ invoice.fromPostCode }}</p>
-            <p>United Kingdom</p>
+            <p>{{ invoice.fromCountry }}</p>
         </div>
         <div class="flex mb-7 text-lg">
             <div class="w-1/2">
@@ -33,12 +33,12 @@ const invoice = store.invoices[param.value]
                 <p>{{ invoice.toAddress }}</p>
                 <p>{{ invoice.toCity }}</p>
                 <p>{{ invoice.toPostCode }}</p>
-                <p>United Kingdom</p>
+                <p>{{ invoice.toCountry }}</p>
             </div>
         </div>
         <div class="mb-7">
             <p class="text-slate-400">Sent to</p>
-            <p class="font-bold text-xl">alexgrim@mail.com</p>
+            <p class="font-bold text-xl">{{ invoice.toEmail }}</p>
         </div>
         <div class="p-5 bg-quinto flex justify-between items-center rounded-t-lg dark:bg-cuarto">
             <div>
