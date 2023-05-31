@@ -28,8 +28,6 @@ const store = useStore()
         <NewComponent />
       </div>
     </div>
-    <router-link to="/about">
-      <Invoices />
-    </router-link>
+    <Invoices />
   </div>
 </template>
