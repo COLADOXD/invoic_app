@@ -137,13 +137,15 @@ const items = ref<Items[]>([]);
 
 const addItem = () => {
     items.value.push({
+        nameItem: '',
         qtyItem: 1,
         priceItem: 0,
         totalPriceItem: 0
     })
 }
 
-const changeValueItem = (index: number, price: number, qty: number) => {
+const changeValueItem = (index: number, price: number, qty: number, name: string) => {
+    items.value[index].nameItem = name
     items.value[index].qtyItem = qty
     items.value[index].priceItem = price
     items.value[index].totalPriceItem = qty * price

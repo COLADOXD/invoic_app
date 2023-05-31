@@ -11,9 +11,10 @@ const props = defineProps({
 
 const priceItem = ref(0);
 const qtyItem = ref(1);
+const nameItem = ref('');
 
 const priceTotal = computed(() => {
-    emits("changeItem", props.itemIndex, priceItem.value, qtyItem.value);
+    emits("changeItem", props.itemIndex, priceItem.value, qtyItem.value, nameItem.value);
     return priceItem.value * qtyItem.value
 })
 
@@ -26,7 +27,7 @@ const removeItem = () => {
 <template>
     <div>
         <p class="mt-5">item name</p>
-        <input type="text" class="h-12 dark:bg-secondary p-2 w-full my-4">
+        <input v-model="nameItem" type="text" class="h-12 dark:bg-secondary p-2 w-full my-4">
         <div class="grid grid-cols-4 gap-1 ">
             <div class="mr-2">
                 <p>Qty.</p>

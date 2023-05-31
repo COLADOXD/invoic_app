@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ComputedRef } from "vue";
 
 export interface Items {
+    nameItem: string;
     qtyItem: number;
     priceItem: number;
     totalPriceItem: number;
@@ -52,6 +53,7 @@ export const useStore = defineStore({
                 toPaymentTerms: '1 dia',
                 toProject: 'probar',
                 items: [{
+                    nameItem: 'primer item',
                     qtyItem: 2, 
                     priceItem: 10, 
                     totalPriceItem: 20}],
