@@ -4,29 +4,32 @@ import DetailsInvoiceComponent from "@/components/DetailsInvoiceComponent.vue";
 import GoBackComponent from "@/components/GoBackComponent.vue";
 import { useStore } from '@/stores/state';
 import { useRoute } from "vue-router";
+import { useRouter } from 'vue-router';
 import { ref } from 'vue'
 
 const store = useStore()
 const route = useRoute();
+const router = useRouter();
 const param = ref()
 param.value = route.params.index
 const viewDeleteInvoice = ref(false)
 
 const deleteInvoice = () => {
-  // store.invoices.splice(param.value, 1)
+  router.push('/');
+  store.invoices.splice(param.value, 1)
   console.log(`view Invoice: ${store.invoices.length}`)
 }
 
-const onDeleteInvoice = () => {
+const confirmDeleteInvoice = () => {
   viewDeleteInvoice.value = !viewDeleteInvoice.value
 }
 </script>
 
 <template>
   <HeaderComponent />
-  <div v-if="true" class="p-6 flex justify-center">
+  <div v-if="viewDeleteInvoice" class="p-6 flex justify-center">
     <div class="fixed inset-0 bg-black opacity-50 z-10"></div>
-    <div
+    <div v-if="store.invoices.length > 0"
       class="fixed z-20 h-[190px] max-w-[480px] bg-white dark:text-white dark:bg-secondary p-5 w-[87.5%] top-[350px] rounded-lg">
       <p class="font-bold text-2xl">Confirm Delete</p>
       <!-- {{ param }} -->
@@ -35,11 +38,10 @@ const onDeleteInvoice = () => {
       }}? This action
         cannot be undone.</p>
       <div class="flex justify-end mt-3">
-        <button @click="onDeleteInvoice"
+        <button @click="confirmDeleteInvoice"
           class="bg-slate-100 font-semibold text-sm text-slate-400 rounded-full p-3">Cancel</button>
-        <router-link to="/">
-          <button @click="deleteInvoice()"
-            class="bg-red-500 font-semibold text-sm text-white rounded-full p-3 ml-3">Delete</button></router-link>
+        <button @click="deleteInvoice()"
+          class="bg-red-500 font-semibold text-sm text-white rounded-full p-3 ml-3">Delete</button>
       </div>
     </div>
   </div>
@@ -61,7 +63,7 @@ const onDeleteInvoice = () => {
   <div
     class="bg-white dark:bg-secondary p-5 text-sm flex justify-center items-center dark:text-white border-slate-300 border-t dark:border-0">
     <div class="bg-slate-200 dark:bg-cuarto p-3 rounded-3xl font-semibold">Edit</div>
-    <button @click="onDeleteInvoice" class="bg-red-500 p-3 rounded-3xl mx-3 font-semibold text-white">Delete</button>
+    <button @click="confirmDeleteInvoice" class="bg-red-500 p-3 rounded-3xl mx-3 font-semibold text-white">Delete</button>
     <div class="bg-blue-500 p-3 rounded-3xl font-semibold text-white">Mark as Paid</div>
   </div>
 </template>
