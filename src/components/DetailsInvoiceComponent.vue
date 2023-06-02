@@ -19,7 +19,7 @@ const totalPriceItems = (totalPrice: Array<Items>) => {
 
 <template>
     <div class="p-5 bg-white rounded-lg pb-7 dark:bg-secondary border-slate-300 border dark:border-0 md:justify-between">
-        <p class=" font-semibold text-lg"><span class="text-blue-500">#</span>{{ invoice.codeInvoice }}</p>
+        <p class=" font-semibold text-lg"><span class="text-blue-500">#{{ invoice.codeInvoice }}</span></p>
         <div class="text-slate-400 mb-7">
             <p class="mb-7">Graphic Design</p>
             <p>{{ invoice.fromAddress }}</p>
