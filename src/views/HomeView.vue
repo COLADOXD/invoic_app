@@ -8,10 +8,6 @@ import { useStore } from "@/stores/state";
 
 const store = useStore()
 
-const countInvoices = () => {
-  return store.invoices.length
-}
-
 </script>
 
 <template>
