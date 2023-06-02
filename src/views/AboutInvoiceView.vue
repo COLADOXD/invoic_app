@@ -17,7 +17,6 @@ const viewDeleteInvoice = ref(false)
 const deleteInvoice = () => {
   router.push('/');
   store.invoices.splice(param.value, 1)
-  console.log(`view Invoice: ${store.invoices.length}`)
 }
 
 const confirmDeleteInvoice = () => {
