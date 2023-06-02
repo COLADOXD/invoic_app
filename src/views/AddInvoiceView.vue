@@ -6,24 +6,26 @@ import { reactive, ref, computed } from 'vue';
 import CreateItem from '../components/CreateItem.vue'
 import { useRouter } from 'vue-router';
 import { Items } from '../stores/state';
+import { addDays, format } from 'date-fns';
 
 const store = useStore();
 const router = useRouter();
+const onPaymentTerms = ref(false);
 
 const state = reactive({
     selectedDate: Date,
     fromAddress: '',
     fromCity: '',
-    fromPostCode: undefined as number | undefined,
+    fromPostCode: '',
     fromCountry: '',
     toName: '',
     toEmail: '',
     toAddress: '',
     toCity: '',
-    toPostCode: undefined as number | undefined,
+    toPostCode: '',
     toCountry: '',
-    toPaymentTerms: '',
     toProject: '',
+    paymentTerms: 30
 });
 
 const checkInfo = reactive({
@@ -48,6 +50,7 @@ const formattedDate = computed(() => {
     const year = dateParts[0];
     const month = getMonthName(dateParts[1]);
     const day = dateParts[2];
+    console.log(state.selectedDate.toLocaleString());
     return ` ${day} ${month} ${year}`;
 });
 
@@ -82,6 +85,12 @@ const codeInvoice = () => {
     return randomName;
 }
 
+const payInvoice = () => {
+    const date = new Date(state.selectedDate.toLocaleString());
+    const dateAdded = addDays(date, 30);
+    return format(dateAdded, 'yyyy-MM-dd');
+}
+
 const checkInput = () => {
     if (state.fromAddress === '') checkInfo.checkFromAddress = false
     else { checkInfo.checkFromAddress = true }
@@ -105,8 +114,6 @@ const checkInput = () => {
     else { checkInfo.checkToCountry = true }
     if (state.selectedDate === Date) checkInfo.checkSelectedDate = false
     else { checkInfo.checkSelectedDate = true }
-    if (state.toPaymentTerms === '') checkInfo.checkToPaymentTerms = false
-    else { checkInfo.checkToPaymentTerms = true }
     if (state.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
     console.log(typeof state.fromCountry)
@@ -124,16 +131,19 @@ const checkInput = () => {
             toCity: state.toCity,
             toPostCode: state.toPostCode,
             toCountry: state.toCountry,
-            toPaymentTerms: state.toPaymentTerms,
             toProject: state.toProject,
             items: items.value,
             selectedDate: formattedDate.value,
+            paymentTerms: state.paymentTerms,
         })
-        console.log(items.value)
-    } else { console.log("no funciona") }
+    }
 }
 
 const items = ref<Items[]>([]);
+const changePaymentTerms = (days: number) => {
+    state.paymentTerms = days
+    onPaymentTerms.value = !onPaymentTerms.value
+}
 
 const addItem = () => {
     items.value.push({
@@ -154,14 +164,17 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
 const removeItem = (index: number) => {
     items.value.splice(index, 1)
 }
+
+const viewPaymentTerms = () => {
+    onPaymentTerms.value = !onPaymentTerms.value
+}
 </script>
 
 <template>
     <HeaderComponent />
     <div class="p-5 bg-quinto pb-5 dark:bg-primary dark:text-white">
         <div class="mt-16"></div>
-        {{ checkInfo.checkFromAddress }}
-        {{ checkInfo.checkFromCity }}
+        {{ payInvoice() }}
         <router-link to="/">
             <GoBackComponent />
         </router-link>
@@ -179,7 +192,7 @@ const removeItem = (index: number) => {
                 </div>
             </div>
             <input v-model="state.fromAddress" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
-                :class="!checkInfo.checkFromAddress ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                :class="!checkInfo.checkFromAddress ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <div class="mb-5 flex">
             <div>
@@ -187,16 +200,15 @@ const removeItem = (index: number) => {
                     :class="!checkInfo.checkFromCity ? 'dark:text-red-700' : 'dark:text-white'">City</p>
                 <input v-model="state.fromCity" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary  pl-5 border rounded-md"
-                    :class="!checkInfo.checkFromCity ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                    :class="!checkInfo.checkFromCity ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkFromCity" class="text-[10px] text-red-700">can't be empty</div>
             </div>
             <div class="ml-10">
                 <p class="text-slate-500 text-sm mb-3 "
                     :class="!checkInfo.checkFromPostCode ? 'dark:text-red-700' : 'dark:text-white'">Post Code</p>
-
                 <input v-model="state.fromPostCode" type="number"
                     class="w-full h-12 border-slate-300 dark:bg-secondary pl-5 border rounded-md"
-                    :class="!checkInfo.checkFromPostCode ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                    :class="!checkInfo.checkFromPostCode ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkFromPostCode" class="text-[10px] text-red-700">can't be empty</div>
             </div>
         </div>
@@ -210,7 +222,7 @@ const removeItem = (index: number) => {
                 </div>
             </div>
             <input v-model="state.fromCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
-                :class="!checkInfo.checkFromCountry ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                :class="!checkInfo.checkFromCountry ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <p class="text-blue-500 font-semibold mb-5">Bill To</p>
         <div class="mb-5">
@@ -219,7 +231,7 @@ const removeItem = (index: number) => {
                 Client's
                 Name</p>
             <input v-model="state.toName" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
-                :class="!checkInfo.checkToName ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
+                :class="!checkInfo.checkToName ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
             <div v-if="!checkInfo.checkToName" class="text-[10px] text-red-700">can't be empty</div>
         </div>
@@ -228,7 +240,7 @@ const removeItem = (index: number) => {
                 :class="!checkInfo.checkToEmail ? 'dark:text-red-700' : 'dark:text-white'">
                 Client's Email</p>
             <input v-model="state.toEmail" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
-                :class="!checkInfo.checkToEmail ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
+                :class="!checkInfo.checkToEmail ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
             <div v-if="!checkInfo.checkToEmail" class="text-[10px] text-red-700">can't be empty</div>
         </div>
@@ -237,7 +249,7 @@ const removeItem = (index: number) => {
                 :class="!checkInfo.checkToAddress ? 'dark:text-red-700' : 'dark:text-white'">
                 Street Address</p>
             <input v-model="state.toAddress" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
-                :class="!checkInfo.checkToAddress ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
+                :class="!checkInfo.checkToAddress ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
             <div v-if="!checkInfo.checkToAddress" class="text-[10px] text-red-700">can't be empty</div>
         </div>
@@ -247,7 +259,7 @@ const removeItem = (index: number) => {
                     :class="!checkInfo.checkToCity ? 'dark:text-red-700' : 'dark:text-white'">City</p>
                 <input v-model="state.toCity" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary  pl-5 border rounded-md"
-                    :class="!checkInfo.checkToCity ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                    :class="!checkInfo.checkToCity ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkToCity" class="text-[10px] text-red-700">can't be empty</div>
             </div>
             <div class="ml-10">
@@ -255,7 +267,7 @@ const removeItem = (index: number) => {
                     :class="!checkInfo.checkToPostCode ? 'dark:text-red-700' : 'dark:text-white'">Post Code</p>
                 <input v-model="state.toPostCode" type="number"
                     class="w-full h-12 border-slate-300 dark:bg-secondary  pl-5 border rounded-md"
-                    :class="!checkInfo.checkToPostCode ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                    :class="!checkInfo.checkToPostCode ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkToPostCode" class="text-[10px] text-red-700">can't be empty</div>
             </div>
         </div>
@@ -269,31 +281,44 @@ const removeItem = (index: number) => {
                 </div>
             </div>
             <input v-model="state.toCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
-                :class="!checkInfo.checkToCountry ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'">
+                :class="!checkInfo.checkToCountry ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkSelectedDate ? 'dark:text-red-700' : 'dark:text-white'">Invoice Date</p>
             <input type="date" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
-                :class="!checkInfo.checkSelectedDate ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
+                :class="!checkInfo.checkSelectedDate ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 v-model="state.selectedDate" />
             <div v-if="!checkInfo.checkSelectedDate" class="text-[10px] text-red-700">can't be empty</div>
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToPaymentTerms ? 'dark:text-red-700' : 'dark:text-white'">Payment Terms</p>
-            <input v-model="state.toPaymentTerms"
-                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
-                :class="!checkInfo.checkToPaymentTerms ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
-                type="text">
-            <div v-if="!checkInfo.checkToPaymentTerms" class="text-[10px] text-red-700">can't be empty</div>
+            <button @click="viewPaymentTerms()"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary flex justify-between items-center px-5 border dark:border-0">
+                <p>Net {{ state.paymentTerms }} Days</p>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </button>
+            <div v-if="onPaymentTerms" class="absolute dark:bg-secondary  drop-shadow-lg mt-3 rounded-lg w-52">
+                <p @click="changePaymentTerms(2)" class="my-3 mx-6 font-medium">Net 2 days</p>
+                <div class="w-full h-px bg-slate-800"></div>
+                <p @click="changePaymentTerms(7)" class="my-3 mx-6 font-medium">Net 7 days</p>
+                <div class="w-full h-px bg-slate-800"></div>
+                <p @click="changePaymentTerms(14)" class="my-3 mx-6 font-medium">Net 14 days</p>
+                <div class="w-full h-px bg-slate-800"></div>
+                <p @click="changePaymentTerms(30)" class="my-3 mx-6 font-medium">Net 30 days</p>
+                <div class="w-full h-px bg-slate-800"></div>
+            </div>
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToProject ? 'dark:text-red-700' : 'dark:text-white'">
                 Project Description</p>
             <input v-model="state.toProject" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  border pl-5"
-                :class="!checkInfo.checkToProject ? 'dark:border-sm border-red-700' : 'border-slate-300 dark:border-0'"
+                :class="!checkInfo.checkToProject ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 placeholder="e.g. Graphic Design Service" type="text">
             <div v-if="!checkInfo.checkToProject" class="text-[10px] text-red-700">can't be empty</div>
         </div>

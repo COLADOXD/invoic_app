@@ -12,27 +12,26 @@ export interface Invoice {
     codeInvoice: string;
     fromAddress: string, 
     fromCity: string,
-    fromPostCode: number | undefined,
+    fromPostCode: string,
     fromCountry: string,
     toName: string,
     toEmail: string,
     toAddress: string,
     toCity: string,
-    toPostCode: number | undefined,
+    toPostCode: string,
     toCountry: string,
-    toPaymentTerms: string,
     toProject: string,
     items: Items[],
     selectedDate: ComputedRef<string>,
+    paymentTerms: number,
 }
 
 
 export const useStore = defineStore({
     id:"store",
     state: () => ({
-        nameProject:"invoic_app",
         isDark: false,
-        invoices: [] as Invoice[]
+        invoices: [] as Invoice[],
     }),
     actions: {
         
@@ -42,22 +41,22 @@ export const useStore = defineStore({
                 codeInvoice: 'RT3080',
                 fromAddress: 'centro',
                 fromCity: 'logrono',
-                fromPostCode: 1000,
+                fromPostCode: '0000',
                 fromCountry: '  Ecuador',
                 toName: 'mateo',
                 toEmail: 'xdmateo',
                 toAddress: 'cerca',
                 toCity: 'cuenca',
-                toPostCode: 2000,
+                toPostCode: '0000',
                 toCountry: 'dor',
-                toPaymentTerms: '1 dia',
                 toProject: 'probar',
                 items: [{
                     nameItem: 'primer item',
                     qtyItem: 2, 
                     priceItem: 10, 
                     totalPriceItem: 20}],
-                selectedDate: '19 Aug 2021'
+                selectedDate: '19 Aug 2021',
+                paymentTerms: 10,
             })
         }
     },

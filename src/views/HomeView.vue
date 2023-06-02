@@ -4,13 +4,13 @@ import FilterComponent from "@/components/FilterComponent.vue"
 import NewComponent from "@/components/NewComponent.vue"
 import Invoices from "@/components/InvoicesComponent.vue"
 import { useStore } from "@/stores/state";
-import { onMounted } from "vue";
 
-onMounted(() => {
-  store.getInvoices()
-})
 
 const store = useStore()
+
+const countInvoices = () => {
+  return store.invoices.length
+}
 
 </script>
 
@@ -28,6 +28,9 @@ const store = useStore()
         <NewComponent />
       </div>
     </div>
-    <Invoices />
+    <div v-if="store.invoices.length">
+      <Invoices />
+    </div>
+
   </div>
 </template>
