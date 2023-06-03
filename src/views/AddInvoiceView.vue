@@ -13,7 +13,7 @@ const router = useRouter();
 const onPaymentTerms = ref(false);
 
 const state = reactive({
-    selectedDate: Date,
+    selectedDate: getDateActual(),
     fromAddress: '',
     fromCity: '',
     fromPostCode: '',
@@ -54,6 +54,20 @@ const formattedDate = computed(() => {
     return ` ${day} ${month} ${year}`;
 });
 
+// const paymentDate = computed(() => {
+
+// });
+const dateActual = ref(getDateActual());
+
+function getDateActual() {
+    const date = new Date();
+    const año = date.getFullYear();
+    let mes = (date.getMonth() + 1).toString().padStart(2, '0');
+    let dia = date.getDate().toString().padStart(2, '0');
+
+    return `${año}-${mes}-${dia}`;
+}
+
 function getMonthName(month: string): string {
     const months = [
         "Jan",
@@ -88,6 +102,7 @@ const codeInvoice = () => {
 const payInvoice = () => {
     const date = new Date(state.selectedDate.toLocaleString());
     const dateAdded = addDays(date, 30);
+    console.log(state.selectedDate)
     return format(dateAdded, 'yyyy-MM-dd');
 }
 
@@ -112,8 +127,6 @@ const checkInput = () => {
     else { checkInfo.checkToPostCode = true }
     if (state.toCountry === '') checkInfo.checkToCountry = false
     else { checkInfo.checkToCountry = true }
-    if (state.selectedDate === Date) checkInfo.checkSelectedDate = false
-    else { checkInfo.checkSelectedDate = true }
     if (state.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
     console.log(typeof state.fromCountry)
@@ -155,6 +168,7 @@ const addItem = () => {
 }
 
 const changeValueItem = (index: number, price: number, qty: number, name: string) => {
+    payInvoice()
     items.value[index].nameItem = name
     items.value[index].qtyItem = qty
     items.value[index].priceItem = price
@@ -174,7 +188,7 @@ const viewPaymentTerms = () => {
     <HeaderComponent />
     <div class="p-5 bg-quinto pb-5 dark:bg-primary dark:text-white">
         <div class="mt-16"></div>
-        {{ payInvoice() }}
+        <!-- {{ payInvoice() }} -->
         <router-link to="/">
             <GoBackComponent />
         </router-link>
@@ -284,12 +298,9 @@ const viewPaymentTerms = () => {
                 :class="!checkInfo.checkToCountry ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <div class="mb-5">
-            <p class="text-slate-500 text-sm mb-3"
-                :class="!checkInfo.checkSelectedDate ? 'dark:text-red-700' : 'dark:text-white'">Invoice Date</p>
+            <p class="text-slate-500 text-sm mb-3">Invoice Date</p>
             <input type="date" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
-                :class="!checkInfo.checkSelectedDate ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 v-model="state.selectedDate" />
-            <div v-if="!checkInfo.checkSelectedDate" class="text-[10px] text-red-700">can't be empty</div>
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
