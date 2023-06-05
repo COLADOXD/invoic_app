@@ -342,14 +342,14 @@ const viewPaymentTerms = () => {
         </div>
     </div>
     <div
-        class="p-5 drop-shadow-2xl relative bg-white dark:bg-secondary w-full dark:text-white flex justify-center text-xs font-semibold">
+        class="bg-white dark:bg-secondary text-sm flex justify-center items-center dark:text-white border-slate-300 border-t dark:border-0 fixed bottom-0 w-full h-[70px]">
         <router-link to="/">
-            <button class="p-3 rounded-full bg-cuarto text-slate-400 dark:text-white">Discard</button>
+            <button class="bg-slate-200 dark:bg-terceary p-2 text-xs rounded-3xl font-semibold">Discard</button>
         </router-link>
-        <button @click="checkInput()" class="p-3 rounded-full bg-terceary mx-3 text-slate-400 dark:text-white">Save as
+        <button @click="checkInput()" class="bg-slate-200 m-4 dark:bg-cuarto p-2 text-xs rounded-3xl font-semibold">Save as
             Draft
         </button>
-        <button @click="checkInput()" class="p-3 rounded-full bg-blue-500 text-white ">
+        <button @click="checkInput()" class="p-2 text-xs rounded-3xl font-semibold bg-blue-500 text-white ">
             Save & Send
         </button>
     </div>

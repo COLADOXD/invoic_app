@@ -60,9 +60,10 @@ const confirmDeleteInvoice = () => {
     <DetailsInvoiceComponent />
   </div>
   <div
-    class="bg-white dark:bg-secondary p-5 text-sm flex justify-center items-center dark:text-white border-slate-300 border-t dark:border-0">
-    <div class="bg-slate-200 dark:bg-cuarto p-3 rounded-3xl font-semibold">Edit</div>
-    <button @click="confirmDeleteInvoice" class="bg-red-500 p-3 rounded-3xl mx-3 font-semibold text-white">Delete</button>
-    <div class="bg-blue-500 p-3 rounded-3xl font-semibold text-white">Mark as Paid</div>
+    class="bg-white dark:bg-secondary p-5 text-sm flex justify-center items-center dark:text-white border-slate-300 border-t dark:border-0 fixed bottom-0 w-full h-[50px]">
+    <div class="bg-slate-200 dark:bg-cuarto p-2 text-xs rounded-3xl font-semibold">Edit</div>
+    <button @click="confirmDeleteInvoice"
+      class="bg-red-500 p-2 text-xs rounded-3xl mx-3 font-semibold text-white">Delete</button>
+    <div class="bg-blue-500 p-2 text-xs rounded-3xl font-semibold text-white">Mark as Paid</div>
   </div>
 </template>
