@@ -50,14 +50,8 @@ const formattedDate = computed(() => {
     const year = dateParts[0];
     const month = getMonthName(dateParts[1]);
     const day = dateParts[2];
-    console.log(state.selectedDate.toLocaleString());
     return ` ${day} ${month} ${year}`;
-});
-
-// const paymentDate = computed(() => {
-
-// });
-const dateActual = ref(getDateActual());
+})
 
 function getDateActual() {
     const date = new Date();
@@ -102,8 +96,12 @@ const codeInvoice = () => {
 const payInvoice = () => {
     const date = new Date(state.selectedDate.toLocaleString());
     const dateAdded = addDays(date, 30);
-    console.log(state.selectedDate)
-    return format(dateAdded, 'yyyy-MM-dd');
+    const dateFormatted = format(dateAdded, 'yyyy-MM-dd')
+    const dateParts = dateFormatted.split("-");
+    const year = dateParts[0];
+    const month = getMonthName(dateParts[1]);
+    const day = dateParts[2];
+    return ` ${day} ${month} ${year}`;
 }
 
 const checkInput = () => {
@@ -129,7 +127,6 @@ const checkInput = () => {
     else { checkInfo.checkToCountry = true }
     if (state.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
-    console.log(typeof state.fromCountry)
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
         router.push('/');
         store.invoices.push({
@@ -148,6 +145,7 @@ const checkInput = () => {
             items: items.value,
             selectedDate: formattedDate.value,
             paymentTerms: state.paymentTerms,
+            expiredInvoice: payInvoice()
         })
     }
 }
@@ -168,7 +166,6 @@ const addItem = () => {
 }
 
 const changeValueItem = (index: number, price: number, qty: number, name: string) => {
-    payInvoice()
     items.value[index].nameItem = name
     items.value[index].qtyItem = qty
     items.value[index].priceItem = price

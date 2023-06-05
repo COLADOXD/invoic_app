@@ -32,7 +32,7 @@ const totalPriceItems = (totalPrice: Array<Items>) => {
                 <p class="text-slate-400">Invoice Date</p>
                 <p class="font-bold text-xl mb-10">{{ invoice.selectedDate }}</p>
                 <p class="text-slate-400">Payment Due</p>
-                <p class="font-bold text-xl">20 Sep 2021</p>
+                <p class="font-bold text-xl">{{ invoice.expiredInvoice }}</p>
             </div>
             <div class="text-slate-400 w-1/2">
                 <p>Bill To</p>

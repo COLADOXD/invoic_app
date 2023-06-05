@@ -22,7 +22,7 @@ const totalPriceItems = (totalPrice: Array<Items>) => {
                 </div>
                 <div class="flex justify-between items-center">
                     <div>
-                        <p class="text-slate-400 font-light dark:text-white">Due {{ invoice.selectedDate }}</p>
+                        <p class="text-slate-400 font-light dark:text-white">Due {{ invoice.expiredInvoice }}</p>
                         <p class="font-bold text-xl">${{ totalPriceItems(invoice.items) }}.00</p>
                     </div>
                     <div class="flex py-4 px-8 bg-orange-100 items-center rounded-lg h-[40px] dark:bg-slate-700">

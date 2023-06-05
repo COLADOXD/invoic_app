@@ -24,6 +24,7 @@ export interface Invoice {
     items: Items[],
     selectedDate: ComputedRef<string>,
     paymentTerms: number,
+    expiredInvoice: string,
 }
 
 
@@ -57,6 +58,7 @@ export const useStore = defineStore({
                     totalPriceItem: 20}],
                 selectedDate: '19 Aug 2021',
                 paymentTerms: 10,
+                expiredInvoice: '21 Sep 2021',
             })
         }
     },
