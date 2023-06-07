@@ -95,7 +95,7 @@ const codeInvoice = () => {
 
 const payInvoice = () => {
     const date = new Date(state.selectedDate.toLocaleString());
-    const dateAdded = addDays(date, 30);
+    const dateAdded = addDays(date, state.paymentTerms);
     const dateFormatted = format(dateAdded, 'yyyy-MM-dd')
     const dateParts = dateFormatted.split("-");
     const year = dateParts[0];
@@ -104,7 +104,7 @@ const payInvoice = () => {
     return ` ${day} ${month} ${year}`;
 }
 
-const checkInput = () => {
+const checkInput = (statusInvoice: string) => {
     if (state.fromAddress === '') checkInfo.checkFromAddress = false
     else { checkInfo.checkFromAddress = true }
     if (state.fromCity === '') checkInfo.checkFromCity = false
@@ -145,7 +145,8 @@ const checkInput = () => {
             items: items.value,
             selectedDate: formattedDate.value,
             paymentTerms: state.paymentTerms,
-            expiredInvoice: payInvoice()
+            expiredInvoice: payInvoice(),
+            stateInvoice: statusInvoice,
         })
     }
 }
@@ -295,7 +296,7 @@ const viewPaymentTerms = () => {
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3">Invoice Date</p>
-            <input type="date" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
+            <input type="date" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  px-5 border"
                 v-model="state.selectedDate" />
         </div>
         <div class="mb-5">
@@ -345,10 +346,11 @@ const viewPaymentTerms = () => {
         <router-link to="/">
             <button class="bg-slate-200 dark:bg-terceary p-2 text-xs rounded-3xl font-semibold">Discard</button>
         </router-link>
-        <button @click="checkInput()" class="bg-slate-200 m-4 dark:bg-cuarto p-2 text-xs rounded-3xl font-semibold">Save as
+        <button @click="checkInput('Draft')"
+            class="bg-slate-200 m-4 dark:bg-cuarto p-2 text-xs rounded-3xl font-semibold">Save as
             Draft
         </button>
-        <button @click="checkInput()" class="p-2 text-xs rounded-3xl font-semibold bg-blue-500 text-white ">
+        <button @click="checkInput('Pending')" class="p-2 text-xs rounded-3xl font-semibold bg-blue-500 text-white ">
             Save & Send
         </button>
     </div>
