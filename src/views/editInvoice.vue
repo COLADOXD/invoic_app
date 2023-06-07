@@ -1,7 +1,6 @@
 <script setup lang="ts" >
 import GoBackComponent from '@/components/GoBackComponent.vue';
 import CreateItem from '../components/CreateItem.vue';
-import { Items } from '../stores/state';
 import { reactive, ref, defineEmits, defineProps } from 'vue';
 import { addDays, format } from 'date-fns';
 

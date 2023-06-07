@@ -3,7 +3,6 @@ import HeaderComponent from "@/components/HeaderComponent.vue";
 import DetailsInvoiceComponent from "@/components/DetailsInvoiceComponent.vue";
 import GoBackComponent from "@/components/GoBackComponent.vue";
 import editInvoice from "./editInvoice.vue";
-import { Items } from '../stores/state';
 import { useStore } from '@/stores/state';
 import { useRoute } from "vue-router";
 import { useRouter } from 'vue-router';
