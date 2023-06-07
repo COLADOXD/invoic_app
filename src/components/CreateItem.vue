@@ -15,7 +15,7 @@ const props = defineProps({
 
 const priceItem = ref(props.item.priceItem);
 const qtyItem = ref(props.item.qtyItem);
-const nameItem = ref('');
+const nameItem = ref(props.item.nameItem);
 
 const priceTotal = computed(() => {
     emits("changeItem", props.itemIndex, priceItem.value, qtyItem.value, nameItem.value);
