@@ -4,8 +4,8 @@ import { Items } from '../stores/state';
 
 const store = useStore()
 
-const totalPriceItems = (totalPrice: Array<Items>) => {
-    return totalPrice.reduce((accumulator, item) => {
+const totalPriceItems = (invoiceItems: Array<Items>) => {
+    return invoiceItems.reduce((accumulator, item) => {
         return accumulator + item.totalPriceItem;
     }, 0);
 }
@@ -27,7 +27,7 @@ const totalPriceItems = (totalPrice: Array<Items>) => {
                     </div>
                     <div class="flex py-4 px-8 bg-orange-100 items-center rounded-lg h-[40px] dark:bg-slate-700">
                         <div class="h-2 w-2 rounded-full bg-green-400 mr-2"></div>
-                        <p>Paid</p>
+                        <p>{{ invoice.stateInvoice }}</p>
                     </div>
                 </div>
             </div>
