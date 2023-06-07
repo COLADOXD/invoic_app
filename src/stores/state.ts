@@ -25,6 +25,7 @@ export interface Invoice {
     selectedDate: ComputedRef<string>,
     paymentTerms: number,
     expiredInvoice: string,
+    stateInvoice: string,
 }
 
 
@@ -59,6 +60,7 @@ export const useStore = defineStore({
                 selectedDate: '19 Aug 2021',
                 paymentTerms: 10,
                 expiredInvoice: '21 Sep 2021',
+                stateInvoice: 'Paid'
             })
         }
     },
