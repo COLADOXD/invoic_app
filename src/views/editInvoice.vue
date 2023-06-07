@@ -49,11 +49,11 @@ const transformerDate = () => {
     };
 
     const parts = invoice.value.selectedDate.split(" ");
-    const dia = parts[0];
-    const mes = month[parts[1]];
-    const año = parts[2];
-    console.log(`parts ${invoice.value.selectedDate} - transformer ${año}-${mes}-${dia}`)
-    return `${año}-${mes}-${dia}`;
+    const dia = parts[1];
+    const mes = month[parts[2]];
+    const año = parts[3];
+    console.log(`parts ${invoice.value.selectedDate} - transformer ${dia}-${mes}-${año}`)
+    return `${dia}-${mes}-${año}`;
 };
 
 const formattedDate = () => {
@@ -93,7 +93,7 @@ const payInvoice = () => {
     const year = dateParts[0];
     const month = getMonthName(dateParts[1]);
     const day = dateParts[2];
-    return ` ${day} ${month} ${year}`;
+    return ` ${day}-${month}-${year}`;
 }
 
 const state = reactive({
