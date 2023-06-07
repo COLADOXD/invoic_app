@@ -4,9 +4,13 @@ import FilterComponent from "@/components/FilterComponent.vue"
 import NewComponent from "@/components/NewComponent.vue"
 import Invoices from "@/components/InvoicesComponent.vue"
 import { useStore } from "@/stores/state";
-
+import { onMounted } from "vue";
 
 const store = useStore()
+
+onMounted(() => {
+  store.getInvoices()
+})
 
 </script>
 
