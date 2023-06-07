@@ -1,7 +1,8 @@
-<script lang="ts" setup>
+<script setup lang="ts" >
 import GoBackComponent from '@/components/GoBackComponent.vue';
 import CreateItem from '../components/CreateItem.vue';
-import { reactive, ref, computed, onMounted } from 'vue';
+import { Items } from '../stores/state';
+import { reactive, ref, defineEmits, defineProps } from 'vue';
 import { addDays, format } from 'date-fns';
 
 
@@ -12,13 +13,9 @@ const props = defineProps({
     }
 })
 
-const invoice = props.invoice
+const invoice = ref(props.invoice)
 
-onMounted(() => {
-
-})
-
-const emits = defineEmits(['changeInfo', 'viewEdit'])
+const emits = defineEmits(['viewEdit'])
 
 const checkInfo = reactive({
     checkSelectedDate: true,
@@ -36,14 +33,38 @@ const checkInfo = reactive({
     checkToProject: true,
 })
 
-const formattedDate = computed(() => {
-    const dateString = invoice.selectedDate.toLocaleString()
+const transformerDate = () => {
+    const month: { [key: string]: string } = {
+        "Jan": "01",
+        "Feb": "02",
+        "Mar": "03",
+        "Apr": "04",
+        "May": "05",
+        "Jun": "06",
+        "Jul": "07",
+        "Aug": "08",
+        "Sep": "09",
+        "Oct": "10",
+        "Nov": "11",
+        "Dec": "12"
+    };
+
+    const parts = invoice.value.selectedDate.split(" ");
+    const dia = parts[0];
+    const mes = month[parts[1]];
+    const año = parts[2];
+    console.log(`parts ${invoice.value.selectedDate} - transformer ${año}-${mes}-${dia}`)
+    return `${año}-${mes}-${dia}`;
+};
+
+const formattedDate = () => {
+    const dateString = state.selectedDate.toLocaleString()
     const dateParts = dateString.split("-");
     const year = dateParts[0];
     const month = getMonthName(dateParts[1]);
     const day = dateParts[2];
     return ` ${day} ${month} ${year}`;
-})
+}
 
 function getMonthName(month: string): string {
     const months = [
@@ -66,8 +87,8 @@ function getMonthName(month: string): string {
 }
 
 const payInvoice = () => {
-    const date = new Date(invoice.selectedDate.toLocaleString());
-    const dateAdded = addDays(date, 30);
+    const date = new Date(invoice.value.selectedDate.toLocaleString());
+    const dateAdded = addDays(date, invoice.value.paymentTerms);
     const dateFormatted = format(dateAdded, 'yyyy-MM-dd')
     const dateParts = dateFormatted.split("-");
     const year = dateParts[0];
@@ -76,45 +97,62 @@ const payInvoice = () => {
     return ` ${day} ${month} ${year}`;
 }
 
+const state = reactive({
+    invoice: invoice,
+    selectedDate: new Date(transformerDate())
+});
+
 const checkInput = () => {
-    if (invoice.fromAddress === '') checkInfo.checkFromAddress = false
+    if (state.invoice.fromAddress === '') checkInfo.checkFromAddress = false
     else { checkInfo.checkFromAddress = true }
-    if (invoice.fromCity === '') checkInfo.checkFromCity = false
+    if (state.invoice.fromCity === '') checkInfo.checkFromCity = false
     else { checkInfo.checkFromCity = true }
-    if (invoice.fromPostCode === undefined) checkInfo.checkFromPostCode = false
+    if (state.invoice.fromPostCode === undefined) checkInfo.checkFromPostCode = false
     else { checkInfo.checkFromPostCode = true }
-    if (invoice.fromCountry === '') checkInfo.checkFromCountry = false
+    if (state.invoice.fromCountry === '') checkInfo.checkFromCountry = false
     else { checkInfo.checkFromCountry = true }
-    if (invoice.toName === '') checkInfo.checkToName = false
+    if (state.invoice.toName === '') checkInfo.checkToName = false
     else { checkInfo.checkToName = true }
-    if (invoice.toEmail === '') checkInfo.checkToEmail = false
+    if (state.invoice.toEmail === '') checkInfo.checkToEmail = false
     else { checkInfo.checkToEmail = true }
-    if (invoice.toAddress === '') checkInfo.checkToAddress = false
+    if (state.invoice.toAddress === '') checkInfo.checkToAddress = false
     else { checkInfo.checkToAddress = true }
-    if (invoice.toCity === '') checkInfo.checkToCity = false
+    if (state.invoice.toCity === '') checkInfo.checkToCity = false
     else { checkInfo.checkToCity = true }
-    if (invoice.toPostCode === undefined) checkInfo.checkToPostCode = false
+    if (state.invoice.toPostCode === undefined) checkInfo.checkToPostCode = false
     else { checkInfo.checkToPostCode = true }
-    if (invoice.toCountry === '') checkInfo.checkToCountry = false
+    if (state.invoice.toCountry === '') checkInfo.checkToCountry = false
     else { checkInfo.checkToCountry = true }
-    if (invoice.toProject === '') checkInfo.checkToProject = false
+    if (state.invoice.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
-        emits("changeInfo", invoice.fromAddress, invoice.fromCity, invoice.fromPostCode, invoice.fromCountry, invoice.toName, invoice.toEmail,
-            invoice.toAddress, invoice.toCity, invoice.toPostCode, invoice.toCountry, invoice.toProject, invoice.items,
-            formattedDate.value, invoice.paymentTerms, payInvoice());
-        emits("viewEdit", false)
+        invoice.value.fromAddress = state.invoice.fromAddress
+        invoice.value.fromCity = state.invoice.fromCity
+        invoice.value.fromPostCode = state.invoice.fromPostCode
+        invoice.value.fromCountry = state.invoice.fromCountry
+        invoice.value.toName = state.invoice.toName
+        invoice.value.toEmail = state.invoice.toEmail
+        invoice.value.toAddress = state.invoice.toAddress
+        invoice.value.toCity = state.invoice.toCity
+        invoice.value.toPostCode = state.invoice.toPostCode
+        invoice.value.toCountry = state.invoice.toCountry
+        invoice.value.toProject = state.invoice.toProject
+        invoice.value.items = state.invoice.items
+        invoice.value.selectedDate = formattedDate()
+        invoice.value.paymentTerms = state.invoice.paymentTerms
+        invoice.value.expiredInvoice = payInvoice()
+        closeEdit()
     }
 }
 
-const cancelChangeInfo = () => {
+const closeEdit = () => {
     emits("viewEdit", false)
 }
 
 const onPaymentTerms = ref(false);
 
 const changePaymentTerms = (days: number) => {
-    invoice.paymentTerms = days
+    state.invoice.paymentTerms = days
     onPaymentTerms.value = !onPaymentTerms.value
 }
 
@@ -123,11 +161,11 @@ const viewPaymentTerms = () => {
 }
 
 const removeItem = (index: number) => {
-    invoice.items.splice(index, 1)
+    state.invoice.items.splice(index, 1)
 }
 
 const addItem = () => {
-    invoice.items.push({
+    state.invoice.items.push({
         nameItem: '',
         qtyItem: 1,
         priceItem: 0,
@@ -136,17 +174,18 @@ const addItem = () => {
 }
 
 const changeValueItem = (index: number, price: number, qty: number, name: string) => {
-    invoice.items[index].nameItem = name
-    invoice.items[index].qtyItem = qty
-    invoice.items[index].priceItem = price
-    invoice.items[index].totalPriceItem = qty * price
+    state.invoice.items[index].nameItem = name
+    state.invoice.items[index].qtyItem = qty
+    state.invoice.items[index].priceItem = price
+    state.invoice.items[index].totalPriceItem = qty * price
 }
 </script>
 
 <template>
     <div class="pb-20 p-5 bg-quinto dark:bg-primary dark:text-white">
         <div class="mt-16"></div>
-        <GoBackComponent @click="cancelChangeInfo()" />
+        <GoBackComponent @click="closeEdit()" />
+        {{ props.invoice.selectedDate }}
         <div class="mb-5">
             <p class="text-3xl font-bold mb-5">New Invoice</p>
             <p class="text-blue-500 font-semibold">Bill From</p>
@@ -160,14 +199,15 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
                 <div v-if="!checkInfo.checkFromAddress" class="text-[10px] text-red-700 flex items-center">can't be empty
                 </div>
             </div>
-            <input v-model="invoice.fromAddress" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
+            <input v-model="state.invoice.fromAddress" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border"
+                type="text"
                 :class="!checkInfo.checkFromAddress ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <div class="mb-5 flex">
             <div>
                 <p class="text-slate-500 text-sm mb-3"
                     :class="!checkInfo.checkFromCity ? 'dark:text-red-700' : 'dark:text-white'">City</p>
-                <input v-model="invoice.fromCity" type="text"
+                <input v-model="state.invoice.fromCity" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary  pl-5 border rounded-md"
                     :class="!checkInfo.checkFromCity ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkFromCity" class="text-[10px] text-red-700">can't be empty</div>
@@ -175,7 +215,7 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
             <div class="ml-10">
                 <p class="text-slate-500 text-sm mb-3 "
                     :class="!checkInfo.checkFromPostCode ? 'dark:text-red-700' : 'dark:text-white'">Post Code</p>
-                <input v-model="invoice.fromPostCode" type="number"
+                <input v-model="state.invoice.fromPostCode" type="number"
                     class="w-full h-12 border-slate-300 dark:bg-secondary pl-5 border rounded-md"
                     :class="!checkInfo.checkFromPostCode ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkFromPostCode" class="text-[10px] text-red-700">can't be empty</div>
@@ -190,7 +230,8 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
                 <div v-if="!checkInfo.checkFromCountry" class="text-[10px] text-red-700 flex items-center">can't be empty
                 </div>
             </div>
-            <input v-model="invoice.fromCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
+            <input v-model="state.invoice.fromCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border"
+                type="text"
                 :class="!checkInfo.checkFromCountry ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <p class="text-blue-500 font-semibold mb-5">Bill To</p>
@@ -199,7 +240,8 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
                 :class="!checkInfo.checkToName ? 'dark:text-red-700' : 'dark:text-white'">
                 Client's
                 Name</p>
-            <input v-model="invoice.toName" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
+            <input v-model="state.invoice.toName"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
                 :class="!checkInfo.checkToName ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
             <div v-if="!checkInfo.checkToName" class="text-[10px] text-red-700">can't be empty</div>
@@ -208,7 +250,8 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToEmail ? 'dark:text-red-700' : 'dark:text-white'">
                 Client's Email</p>
-            <input v-model="invoice.toEmail" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
+            <input v-model="state.invoice.toEmail"
+                class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border "
                 :class="!checkInfo.checkToEmail ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
             <div v-if="!checkInfo.checkToEmail" class="text-[10px] text-red-700">can't be empty</div>
@@ -217,7 +260,7 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToAddress ? 'dark:text-red-700' : 'dark:text-white'">
                 Street Address</p>
-            <input v-model="invoice.toAddress"
+            <input v-model="state.invoice.toAddress"
                 class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
                 :class="!checkInfo.checkToAddress ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 type="text">
@@ -227,7 +270,7 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
             <div>
                 <p class="text-slate-500 text-sm mb-3"
                     :class="!checkInfo.checkToCity ? 'dark:text-red-700' : 'dark:text-white'">City</p>
-                <input v-model="invoice.toCity" type="text"
+                <input v-model="state.invoice.toCity" type="text"
                     class="w-full h-12 border-slate-300 dark:bg-secondary  pl-5 border rounded-md"
                     :class="!checkInfo.checkToCity ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkToCity" class="text-[10px] text-red-700">can't be empty</div>
@@ -235,7 +278,7 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
             <div class="ml-10">
                 <p class="text-slate-500 text-sm mb-3"
                     :class="!checkInfo.checkToPostCode ? 'dark:text-red-700' : 'dark:text-white'">Post Code</p>
-                <input v-model="invoice.toPostCode" type="number"
+                <input v-model="state.invoice.toPostCode" type="number"
                     class="w-full h-12 border-slate-300 dark:bg-secondary  pl-5 border rounded-md"
                     :class="!checkInfo.checkToPostCode ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
                 <div v-if="!checkInfo.checkToPostCode" class="text-[10px] text-red-700">can't be empty</div>
@@ -250,20 +293,21 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
                 <div v-if="!checkInfo.checkToCountry" class="text-[10px] text-red-700 flex items-center">can't be empty
                 </div>
             </div>
-            <input v-model="invoice.toCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border" type="text"
+            <input v-model="state.invoice.toCountry" class="w-full h-12 rounded-md  dark:bg-secondary  pl-5 border"
+                type="text"
                 :class="!checkInfo.checkToCountry ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'">
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3">Invoice Date</p>
             <input type="date" class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  pl-5 border"
-                v-model="invoice.selectedDate" />
+                v-model="state.selectedDate" />
         </div>
         <div class="mb-5">
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToPaymentTerms ? 'dark:text-red-700' : 'dark:text-white'">Payment Terms</p>
             <button @click="viewPaymentTerms()"
                 class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary flex justify-between items-center px-5 border dark:border-0">
-                <p>Net {{ invoice.paymentTerms }} Days</p>
+                <p>Net {{ state.invoice.paymentTerms }} Days</p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -284,7 +328,7 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
             <p class="text-slate-500 text-sm mb-3"
                 :class="!checkInfo.checkToProject ? 'dark:text-red-700' : 'dark:text-white'">
                 Project Description</p>
-            <input v-model="invoice.toProject"
+            <input v-model="state.invoice.toProject"
                 class="w-full h-12 rounded-md border-slate-300 dark:bg-secondary  border pl-5"
                 :class="!checkInfo.checkToProject ? 'dark:border-sm dark:border-red-700' : 'border-slate-300 dark:border-0'"
                 placeholder="e.g. Graphic Design Service" type="text">
@@ -292,7 +336,7 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
         </div>
 
         <p class="dark:text-slate-400 font-bold text-2xl mb-5">Item list</p>
-        <div v-for="(item, index) in invoice.items" :key="index">
+        <div v-for="(item, index) in state.invoice.items" :key="index">
             <CreateItem @deleteItem="removeItem(index)" @changeItem="changeValueItem" :item="item" :itemIndex="index" />
         </div>
         <div @click="addItem"
@@ -302,13 +346,13 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
         </div>
     </div>
     <div
-        class="bg-white dark:bg-secondary text-sm flex justify-end items-center dark:text-white border-slate-300 border-t dark:border-0 fixed bottom-0 w-full h-[70px]">
+        class="bg-white dark:bg-secondary pr-5 text-sm flex justify-end items-center dark:text-white border-slate-300 border-t dark:border-0 fixed bottom-0 w-full h-[70px]">
 
-        <button @click="checkInput()" class="bg-slate-200 m-4 dark:bg-cuarto p-2 text-xs rounded-3xl font-semibold">Save as
-            Draft
+        <button @click="closeEdit()" class="bg-slate-200 m-4 dark:bg-cuarto p-2 text-xs rounded-3xl font-semibold">
+            Cancel
         </button>
-        <button @click="cancelChangeInfo()" class="p-2 text-xs rounded-3xl font-semibold bg-blue-500 text-white ">
-            Save & Send
+        <button @click="checkInput()" class="p-2 text-xs rounded-3xl font-semibold bg-blue-500 text-white ">
+            Save Changes
         </button>
     </div>
 </template>
