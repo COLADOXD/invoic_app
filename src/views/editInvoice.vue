@@ -49,20 +49,19 @@ const transformerDate = () => {
     };
 
     const parts = invoice.value.selectedDate.split(" ");
-    const dia = parts[1];
-    const mes = month[parts[2]];
-    const año = parts[3];
-    console.log(`parts ${invoice.value.selectedDate} - transformer ${dia}-${mes}-${año}`)
-    return `${dia}-${mes}-${año}`;
+    const dia = parts[0];
+    const mes = month[parts[1]];
+    const año = parts[2];
+    return `${año}-${mes}-${dia}`;
 };
 
 const formattedDate = () => {
-    const dateString = state.selectedDate.toLocaleString()
-    const dateParts = dateString.split("-");
-    const year = dateParts[0];
-    const month = getMonthName(dateParts[1]);
-    const day = dateParts[2];
-    return ` ${day} ${month} ${year}`;
+    const date = new Date(state.selectedDate)
+    const año = date.getFullYear();
+    const mes = getMonthName((date.getMonth() + 1).toString());
+    const dia = date.getDate().toString().padStart(2, '0');
+    console.log(`EDIT formattedDate ${dia} ${mes} ${año}`)
+    return ` ${dia} ${mes} ${año}`;
 }
 
 function getMonthName(month: string): string {
@@ -86,19 +85,18 @@ function getMonthName(month: string): string {
 }
 
 const payInvoice = () => {
-    const date = new Date(invoice.value.selectedDate.toLocaleString());
-    const dateAdded = addDays(date, invoice.value.paymentTerms);
-    const dateFormatted = format(dateAdded, 'yyyy-MM-dd')
-    const dateParts = dateFormatted.split("-");
-    const year = dateParts[0];
-    const month = getMonthName(dateParts[1]);
-    const day = dateParts[2];
-    return ` ${day}-${month}-${year}`;
+    const date = new Date(state.selectedDate);
+    const dateUpdate = addDays(date, invoice.value.paymentTerms);
+    const año = dateUpdate.getFullYear();
+    const mes = getMonthName((dateUpdate.getMonth() + 1).toString());
+    const dia = dateUpdate.getDate().toString().padStart(2, '0');
+    console.log(`EDIT formattedDate ${dia} ${mes} ${año}`)
+    return ` ${dia} ${mes} ${año}`;
 }
 
 const state = reactive({
     invoice: invoice,
-    selectedDate: new Date(transformerDate())
+    selectedDate: transformerDate()
 });
 
 const checkInput = () => {
@@ -125,6 +123,7 @@ const checkInput = () => {
     if (state.invoice.toProject === '') checkInfo.checkToProject = false
     else { checkInfo.checkToProject = true }
     if (checkInfo.checkSelectedDate, checkInfo.checkFromAddress, checkInfo.checkFromCity, checkInfo.checkFromPostCode, checkInfo.checkToName, checkInfo.checkToEmail, checkInfo.checkToAddress, checkInfo.checkToCity, checkInfo.checkToPostCode, checkInfo.checkToPaymentTerms, checkInfo.checkToProject === true) {
+        closeEdit()
         invoice.value.fromAddress = state.invoice.fromAddress
         invoice.value.fromCity = state.invoice.fromCity
         invoice.value.fromPostCode = state.invoice.fromPostCode
@@ -140,7 +139,7 @@ const checkInput = () => {
         invoice.value.selectedDate = formattedDate()
         invoice.value.paymentTerms = state.invoice.paymentTerms
         invoice.value.expiredInvoice = payInvoice()
-        closeEdit()
+
     }
 }
 
@@ -184,7 +183,6 @@ const changeValueItem = (index: number, price: number, qty: number, name: string
     <div class="pb-20 p-5 bg-quinto dark:bg-primary dark:text-white">
         <div class="mt-16"></div>
         <GoBackComponent @click="closeEdit()" />
-        {{ props.invoice.selectedDate }}
         <div class="mb-5">
             <p class="text-3xl font-bold mb-5">New Invoice</p>
             <p class="text-blue-500 font-semibold">Bill From</p>

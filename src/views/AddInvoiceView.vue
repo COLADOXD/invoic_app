@@ -45,12 +45,12 @@ const checkInfo = reactive({
 })
 
 const formattedDate = computed(() => {
-    const dateString = state.selectedDate.toLocaleString()
-    const dateParts = dateString.split("-");
-    const year = dateParts[0];
-    const month = getMonthName(dateParts[1]);
-    const day = dateParts[2];
-    return ` ${day} ${month} ${year}`;
+    const date = new Date(state.selectedDate)
+    const año = date.getFullYear();
+    const mes = getMonthName((date.getMonth() + 1).toString());
+    const dia = date.getDate().toString().padStart(2, '0');
+    console.log(`ADD formattedDate ${dia} ${mes} ${año}`)
+    return ` ${dia} ${mes} ${año}`;
 })
 
 function getDateActual() {
@@ -58,7 +58,6 @@ function getDateActual() {
     const año = date.getFullYear();
     let mes = (date.getMonth() + 1).toString().padStart(2, '0');
     let dia = date.getDate().toString().padStart(2, '0');
-
     return `${año}-${mes}-${dia}`;
 }
 
@@ -94,14 +93,13 @@ const codeInvoice = () => {
 }
 
 const payInvoice = () => {
-    const date = new Date(state.selectedDate.toLocaleString());
-    const dateAdded = addDays(date, state.paymentTerms);
-    const dateFormatted = format(dateAdded, 'yyyy-MM-dd')
-    const dateParts = dateFormatted.split("-");
-    const year = dateParts[0];
-    const month = getMonthName(dateParts[1]);
-    const day = dateParts[2];
-    return ` ${day} ${month} ${year}`;
+    const date = new Date(state.selectedDate);
+    const dateUpdate = addDays(date, state.paymentTerms);
+    const año = dateUpdate.getFullYear();
+    const mes = getMonthName((dateUpdate.getMonth() + 1).toString());
+    const dia = dateUpdate.getDate().toString().padStart(2, '0');
+    console.log(`ADD formattedDate ${dia} ${mes} ${año}`)
+    return ` ${dia} ${mes} ${año}`;
 }
 
 const checkInput = (statusInvoice: string) => {
