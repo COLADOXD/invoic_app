@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { ref, Ref } from 'vue';
+import { ref } from 'vue';
+import { useStore } from '@/stores/state';
+
+const store = useStore()
 
 const selectFilter = ref(false);
-const filters: Ref<string[]> = ref([])
 
-const viewFilter = (filter: string) => {
-    filters.value.push(filter);
+const viewFilter = (filterName: string) => {
+    const index = store.filters.indexOf(filterName);
+    if (index !== -1) {
+        store.filters.splice(index, 1);
+    } else {
+        store.filters.push(filterName);
+    }
+    store.invoicesFiltered = store.invoices.filter(item => store.filters.includes(item.stateInvoice));
 }
 
 const showContainer = () => {

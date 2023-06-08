@@ -34,6 +34,8 @@ export const useStore = defineStore({
     state: () => ({
         isDark: false,
         invoices: [] as Invoice[],
+        invoicesFiltered: [] as Invoice[],
+        filters: [] as string[],
     }),
     actions: {
         
