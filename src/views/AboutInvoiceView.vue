@@ -2,7 +2,7 @@
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import DetailsInvoiceComponent from "@/components/DetailsInvoiceComponent.vue";
 import GoBackComponent from "@/components/GoBackComponent.vue";
-import editInvoice from "./editInvoice.vue";
+import EditInvoice from "@/components/EditInvoiceComponent.vue";
 import { useStore } from '@/stores/state';
 import { useRoute } from "vue-router";
 import { useRouter } from 'vue-router';
@@ -83,6 +83,6 @@ const onStatePaid = () => {
     </div>
   </div>
   <div v-else>
-    <editInvoice @view-edit="viewEditInvoice" :invoice="store.invoices[param]" />
+    <EditInvoice @view-edit="viewEditInvoice" :invoice="store.invoices[param]" />
   </div>
 </template>
