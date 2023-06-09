@@ -32,65 +32,9 @@ const checkInfo = reactive({
     checkToProject: true,
 })
 
-const transformerDate = () => {
-    const month: { [key: string]: string } = {
-        "Jan": "01",
-        "Feb": "02",
-        "Mar": "03",
-        "Apr": "04",
-        "May": "05",
-        "Jun": "06",
-        "Jul": "07",
-        "Aug": "08",
-        "Sep": "09",
-        "Oct": "10",
-        "Nov": "11",
-        "Dec": "12"
-    };
-
-    const parts = invoice.value.selectedDate.split(" ");
-    const dia = parts[0];
-    const mes = month[parts[1]];
-    const año = parts[2];
-    return `${año}-${mes}-${dia}`;
-};
-
-
-
-function getMonthName(month: string): string {
-    const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-    ];
-
-    const monthIndex = parseInt(month, 10) - 1;
-    return months[monthIndex];
-}
-
-const payInvoice = () => {
-    const date = new Date(state.selectedDate);
-    const dateUpdate = addDays(date, invoice.value.paymentTerms);
-    console.log(`date payInvoice ${dateUpdate}`)
-    const año = dateUpdate.getFullYear();
-    const mes = getMonthName((dateUpdate.getMonth() + 1).toString());
-    const dia = dateUpdate.getDate().toString().padStart(2, '0');
-    console.log(`EDIT formattedDate ${dia} ${mes} ${año}`)
-    return ` ${dia} ${mes} ${año}`;
-}
-
 const state = reactive({
     invoice: invoice,
-    selectedDate: transformerDate()
+    selectedDate: format(new Date(invoice.value.selectedDate), 'yyyy-MM-dd')
 });
 
 const checkInput = () => {
@@ -132,7 +76,7 @@ const checkInput = () => {
         invoice.value.items = state.invoice.items
         invoice.value.selectedDate = format(addDays(new Date(state.selectedDate), 1), 'dd MMM yyyy')
         invoice.value.paymentTerms = state.invoice.paymentTerms
-        invoice.value.expiredInvoice = format(addDays(new Date(state.selectedDate), state.invoice.paymentTerms), 'dd MMM yyyy')
+        invoice.value.expiredInvoice = format(addDays(new Date(state.selectedDate), state.invoice.paymentTerms + 1), 'dd MMM yyyy')
 
     }
 }

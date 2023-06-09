@@ -2,7 +2,7 @@
 import GoBackComponent from '@/components/GoBackComponent.vue'
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import { useStore } from '@/stores/state';
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref } from 'vue';
 import CreateItem from '../components/CreateItem.vue';
 import { useRouter } from 'vue-router';
 import { Items } from '../stores/state';
@@ -13,7 +13,7 @@ const router = useRouter();
 const onPaymentTerms = ref(false);
 
 const state = reactive({
-    selectedDate: getDateActual(),
+    selectedDate: format(new Date(), 'yyyy-MM-dd'),
     fromAddress: '',
     fromCity: '',
     fromPostCode: '',
@@ -43,11 +43,6 @@ const checkInfo = reactive({
     checkToPaymentTerms: true,
     checkToProject: true,
 })
-
-function getDateActual() {
-    const date = new Date();
-    return format(date, 'yyyy-MM-dd');
-}
 
 const codeInvoice = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
