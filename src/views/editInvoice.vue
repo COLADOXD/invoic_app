@@ -55,14 +55,7 @@ const transformerDate = () => {
     return `${año}-${mes}-${dia}`;
 };
 
-const formattedDate = () => {
-    const date = new Date(state.selectedDate)
-    const año = date.getFullYear();
-    const mes = getMonthName((date.getMonth() + 1).toString());
-    const dia = date.getDate().toString().padStart(2, '0');
-    console.log(`EDIT formattedDate ${dia} ${mes} ${año}`)
-    return ` ${dia} ${mes} ${año}`;
-}
+
 
 function getMonthName(month: string): string {
     const months = [
@@ -87,6 +80,7 @@ function getMonthName(month: string): string {
 const payInvoice = () => {
     const date = new Date(state.selectedDate);
     const dateUpdate = addDays(date, invoice.value.paymentTerms);
+    console.log(`date payInvoice ${dateUpdate}`)
     const año = dateUpdate.getFullYear();
     const mes = getMonthName((dateUpdate.getMonth() + 1).toString());
     const dia = dateUpdate.getDate().toString().padStart(2, '0');
@@ -110,7 +104,7 @@ const checkInput = () => {
     else { checkInfo.checkFromCountry = true }
     if (state.invoice.toName === '') checkInfo.checkToName = false
     else { checkInfo.checkToName = true }
-    if (state.invoice.toEmail === '') checkInfo.checkToEmail = false
+    if (state.invoice.toEmail === '' && state.invoice.toEmail.includes('@', '.com')) checkInfo.checkToEmail = false
     else { checkInfo.checkToEmail = true }
     if (state.invoice.toAddress === '') checkInfo.checkToAddress = false
     else { checkInfo.checkToAddress = true }
@@ -136,9 +130,9 @@ const checkInput = () => {
         invoice.value.toCountry = state.invoice.toCountry
         invoice.value.toProject = state.invoice.toProject
         invoice.value.items = state.invoice.items
-        invoice.value.selectedDate = formattedDate()
+        invoice.value.selectedDate = format(addDays(new Date(state.selectedDate), 1), 'dd MMM yyyy')
         invoice.value.paymentTerms = state.invoice.paymentTerms
-        invoice.value.expiredInvoice = payInvoice()
+        invoice.value.expiredInvoice = format(addDays(new Date(state.selectedDate), state.invoice.paymentTerms), 'dd MMM yyyy')
 
     }
 }

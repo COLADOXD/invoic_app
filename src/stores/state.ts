@@ -32,7 +32,7 @@ export interface Invoice {
 export const useStore = defineStore({
     id:"store",
     state: () => ({
-        isDark: false,
+        isDark: true,
         invoices: [] as Invoice[],
         invoicesFiltered: [] as Invoice[],
         filters: [] as string[],
@@ -59,9 +59,9 @@ export const useStore = defineStore({
                     qtyItem: 2, 
                     priceItem: 10, 
                     totalPriceItem: 20}],
-                selectedDate: '19 Aug 2021',
+                selectedDate: '15 Aug 2021',
                 paymentTerms: 10,
-                expiredInvoice: '21 Sep 2021',
+                expiredInvoice: '25 Aug 2021',
                 stateInvoice: 'Paid'
             })
         }

@@ -44,41 +44,9 @@ const checkInfo = reactive({
     checkToProject: true,
 })
 
-const formattedDate = computed(() => {
-    const date = new Date(state.selectedDate)
-    const año = date.getFullYear();
-    const mes = getMonthName((date.getMonth() + 1).toString());
-    const dia = date.getDate().toString().padStart(2, '0');
-    console.log(`ADD formattedDate ${dia} ${mes} ${año}`)
-    return ` ${dia} ${mes} ${año}`;
-})
-
 function getDateActual() {
     const date = new Date();
-    const año = date.getFullYear();
-    let mes = (date.getMonth() + 1).toString().padStart(2, '0');
-    let dia = date.getDate().toString().padStart(2, '0');
-    return `${año}-${mes}-${dia}`;
-}
-
-function getMonthName(month: string): string {
-    const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-    ];
-
-    const monthIndex = parseInt(month, 10) - 1;
-    return months[monthIndex];
+    return format(date, 'yyyy-MM-dd');
 }
 
 const codeInvoice = () => {
@@ -90,16 +58,6 @@ const codeInvoice = () => {
         randomName += characters[randomIndex];
     }
     return randomName;
-}
-
-const payInvoice = () => {
-    const date = new Date(state.selectedDate);
-    const dateUpdate = addDays(date, state.paymentTerms);
-    const año = dateUpdate.getFullYear();
-    const mes = getMonthName((dateUpdate.getMonth() + 1).toString());
-    const dia = dateUpdate.getDate().toString().padStart(2, '0');
-    console.log(`ADD formattedDate ${dia} ${mes} ${año}`)
-    return ` ${dia} ${mes} ${año}`;
 }
 
 const checkInput = (statusInvoice: string) => {
@@ -141,9 +99,9 @@ const checkInput = (statusInvoice: string) => {
             toCountry: state.toCountry,
             toProject: state.toProject,
             items: items.value,
-            selectedDate: formattedDate.value,
+            selectedDate: format(addDays(new Date(state.selectedDate), 1), 'dd MMM yyyy'),
             paymentTerms: state.paymentTerms,
-            expiredInvoice: payInvoice(),
+            expiredInvoice: format(addDays(new Date(state.selectedDate), state.paymentTerms), 'dd MMM yyyy'),
             stateInvoice: statusInvoice,
         })
     }
