@@ -45,7 +45,7 @@ const checkInfo = reactive({
 })
 
 const codeInvoice = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789A';
     let randomName = '';
 
     for (let i = 0; i < 6; i++) {
